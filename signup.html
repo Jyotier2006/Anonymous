@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sign Up | SkillSphere (Healthcare)</title>
+
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+
+    body{
+      font-family:'Poppins',sans-serif;
+      background: url('https://img.freepik.com/free-vector/clean-medical-background_53876-97927.jpg?semt=ais_hybrid&w=740&q=80') no-repeat center/cover;
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:16px;
+      position:relative;
+      overflow:hidden;
+    }
+    body::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:rgba(0,0,0,.42);
+      pointer-events:none;
+    }
+
+    .wrap{
+      width:100%;
+      max-width:980px;
+      position:relative;
+      z-index:2;
+      display:grid;
+      grid-template-columns: 1.05fr 1fr;
+      gap:16px;
+      align-items:center;
+      animation: popIn .65s ease both;
+    }
+    @keyframes popIn{
+      from{opacity:0; transform:translateY(14px) scale(.99);}
+      to{opacity:1; transform:translateY(0) scale(1);}
+    }
+
+    /* LEFT PANEL */
+    .brandPanel{
+      color:#fff;
+      padding:18px;
+      border-radius:18px;
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.18);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 18px 60px rgba(0,0,0,.35);
+      max-height:92vh;
+    }
+    .brandTop{ display:flex; align-items:center; gap:12px; margin-bottom:10px; }
+    .logo{
+      width:56px;height:56px;
+      border-radius:18px;
+      display:flex; align-items:center; justify-content:center;
+      background:rgba(255,255,255,.14);
+      border:1px solid rgba(255,255,255,.22);
+      box-shadow:0 18px 40px rgba(0,0,0,.25);
+      flex:0 0 auto;
+      transition: transform .2s ease;
+    }
+    .logo:hover{ transform: translateY(-2px); }
+    .brandPanel h1{ font-size:22px; font-weight:900; line-height:1.1; }
+    .brandPanel p{ margin-top:6px; font-size:13px; color:rgba(255,255,255,.90); }
+
+    .chips{
+      margin-top:12px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+    }
+    .chip{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:7px 10px;
+      border-radius:999px;
+      background:rgba(255,255,255,.10);
+      border:1px solid rgba(255,255,255,.18);
+      font-size:12px;
+      color:rgba(255,255,255,.92);
+      white-space:nowrap;
+    }
+
+    .miniSteps{
+      margin-top:12px;
+      padding:12px;
+      border-radius:16px;
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.16);
+    }
+    .miniSteps .t{ font-weight:900; margin-bottom:6px; }
+    .miniSteps ol{
+      margin:0; padding-left:18px;
+      color:rgba(255,255,255,.90);
+      font-size:12px;
+      line-height:1.45;
+    }
+
+    /* RIGHT FORM */
+    form{
+      width:100%;
+      border-radius:18px;
+      background:rgba(255,255,255,.14);
+      border:1px solid rgba(255,255,255,.22);
+      backdrop-filter: blur(14px);
+      box-shadow: 0 22px 60px rgba(0,0,0,.50);
+      padding:16px 16px;
+      max-height:92vh;
+    }
+
+    .title{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:12px;
+      margin-bottom:8px;
+      color:#fff;
+    }
+    .title h3{ font-size:18px; font-weight:900; line-height:1.15; }
+    .subtitle{ font-size:12px; color:rgba(255,255,255,.88); margin-top:3px; }
+    .badge{
+      font-size:12px;
+      padding:7px 10px;
+      border-radius:999px;
+      background:rgba(255,255,255,.12);
+      border:1px solid rgba(255,255,255,.22);
+      color:rgba(255,255,255,.92);
+      white-space:nowrap;
+    }
+
+    .msg{
+      background: rgba(255, 255, 255, 0.14);
+      border: 1px solid rgba(255,255,255,.22);
+      border-radius: 12px;
+      padding: 8px 10px;
+      color: rgba(255,255,255,.95);
+      font-size: 12px;
+      margin: 8px 0 10px;
+    }
+
+    .grid{ display:grid; gap:10px; }
+
+    .row2{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
+    }
+
+    label{
+      display:block;
+      font-size:12px;
+      font-weight:800;
+      color:rgba(255,255,255,.92);
+      margin-bottom:5px;
+    }
+
+    .input{ position:relative; }
+
+    input, select{
+      height:40px;
+      width:100%;
+      border-radius:12px;
+      padding:0 12px;
+      font-size:13px;
+      font-weight:600;
+      color:#fff;
+      background:rgba(255,255,255,.16);
+      border:1px solid rgba(255,255,255,.18);
+      outline:none;
+      transition:.16s ease;
+    }
+    input::placeholder{ color:rgba(255,255,255,.78); }
+    input:focus, select:focus{
+      border-color:rgba(255,255,255,.52);
+      box-shadow:0 0 0 4px rgba(255,255,255,.11);
+    }
+
+    select{
+      appearance:none;
+      -webkit-appearance:none;
+      -moz-appearance:none;
+      padding-right:38px;
+      cursor:pointer;
+    }
+    option{
+      color:#111 !important;
+      background:#fff !important;
+      font-weight:700;
+    }
+    .select-arrow{
+      position:absolute;
+      right:12px;
+      top:50%;
+      transform:translateY(-50%);
+      color:rgba(255,255,255,.92);
+      pointer-events:none;
+      font-size:14px;
+    }
+
+    .hint{
+      margin-top:5px;
+      font-size:11px;
+      color:rgba(255,255,255,.84);
+      line-height:1.25;
+    }
+
+    .toggle{
+      position:absolute;
+      right:10px;
+      top:50%;
+      transform:translateY(-50%);
+      background:transparent;
+      border:none;
+      color:rgba(255,255,255,.92);
+      cursor:pointer;
+      padding:6px;
+    }
+
+    .checks{
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      padding:9px 10px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.18);
+      background:rgba(255,255,255,.08);
+    }
+    .checks input{
+      height:16px; width:16px;
+      margin-top:2px;
+      accent-color:#ffffff;
+    }
+    .checks p{
+      margin:0;
+      font-size:11.5px;
+      color:rgba(255,255,255,.92);
+      line-height:1.25;
+    }
+    .checks a{
+      color:#fff;
+      font-weight:900;
+      text-decoration:none;
+      border-bottom:1px dashed rgba(255,255,255,.65);
+    }
+
+    .actions{ display:grid; gap:8px; margin-top:2px; }
+    button[type="submit"]{
+      height:44px;
+      width:100%;
+      border:none;
+      border-radius:14px;
+      cursor:pointer;
+      font-weight:900;
+      font-size:15px;
+      color:#0b1020;
+      background:linear-gradient(135deg,#ffffff,#dfefff);
+      box-shadow:0 18px 40px rgba(0,0,0,.28);
+      transition:transform .14s ease, box-shadow .14s ease;
+    }
+    button[type="submit"]:hover{
+      transform:translateY(-2px);
+      box-shadow:0 22px 52px rgba(0,0,0,.35);
+    }
+
+    .secondary{
+      text-align:center;
+      font-size:12.5px;
+      color:rgba(255,255,255,.92);
+    }
+    .secondary a{
+      color:#fff;
+      font-weight:900;
+      text-decoration:none;
+      border-bottom:1px dashed rgba(255,255,255,.65);
+    }
+
+    /* Responsive */
+    @media (max-width: 900px){
+      body{ overflow:auto; }
+      .wrap{ grid-template-columns: 1fr; max-width: 560px; }
+      .brandPanel, form{ max-height:none; }
+    }
+    @media (max-width: 520px){
+      .row2{ grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+
+    <!-- LEFT BRAND PANEL -->
+    <div class="brandPanel">
+      <div class="brandTop">
+        <div class="logo"><i class="fas fa-heartbeat"></i></div>
+        <div>
+          <h1>MediBridge</h1>
+          <p><b>Healthcare</b> Skill Intelligence — readiness, gaps & roadmap</p>
+        </div>
+      </div>
+
+      <div class="chips">
+        <span class="chip"><i class="fas fa-user-check"></i> Profile</span>
+        <span class="chip"><i class="fas fa-bullseye"></i> Role Readiness</span>
+        <span class="chip"><i class="fas fa-chart-bar"></i> Skill Gaps</span>
+        <span class="chip"><i class="fas fa-lightbulb"></i> Roadmap</span>
+      </div>
+
+      <div class="miniSteps">
+        <div class="t">Procedure</div>
+        <ol>
+          <li>Register as Student</li>
+          <li>Add 6–8 skills</li>
+          <li>Select “Health Data Assistant”</li>
+        </ol>
+      </div>
+    </div>
+
+    <!-- RIGHT FORM -->
+    <form action="" method="post">
+      {% csrf_token %}
+
+      <div class="title">
+        <div>
+          <h3>Create Healthcare Account</h3>
+          <div class="subtitle">We focus on one domain for depth (Healthcare).</div>
+        </div>
+        <div class="badge"><i class="fas fa-shield-alt"></i> Healthcare</div>
+      </div>
+
+      {% if messages %}
+        {% for message in messages %}
+          <div class="msg">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+
+      <!-- Hidden sector: fixed to healthcare -->
+      <input type="hidden" name="sector" value="healthcare">
+
+      <div class="grid">
+
+        <div class="row2">
+          <div>
+            <label for="username">Username</label>
+            <div class="input">
+              <input type="text" name="username" id="username" placeholder="e.g. jyoti_vithlani" required>
+            </div>
+          </div>
+
+          <div>
+            <label for="email">Email</label>
+            <div class="input">
+              <input type="email" name="email" id="email" placeholder="e.g. jyoti@gmail.com" required>
+            </div>
+          </div>
+        </div>
+
+        <div class="row2">
+          <div>
+            <label for="role">I am a</label>
+            <div class="input">
+              <select name="role" id="role" required>
+                <option value="" selected disabled>Select role</option>
+                <option value="student">Student</option>
+                <option value="educator">Educator</option>
+              </select>
+              <span class="select-arrow"><i class="fas fa-chevron-down"></i></span>
+              <div class="hint"></div>
+            </div>
+          </div>
+
+          <div>
+            <label for="status">Current status</label>
+            <div class="input">
+              <select name="status" id="status" required>
+                <option value="" selected disabled>Select</option>
+                <option value="student">Student</option>
+                <option value="intern">Intern</option>
+                <option value="fresher">Fresher</option>
+                <option value="working">Working Professional</option>
+              </select>
+              <span class="select-arrow"><i class="fas fa-chevron-down"></i></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="row2">
+          <div>
+            <label for="goal">Interested role (Healthcare)</label>
+            <div class="input">
+              <select name="goal" id="goal" required>
+                <option value="" selected disabled>Select role</option>
+                <option value="Health Data Assistant">Health Data Assistant</option>
+                <option value="Clinical Data Entry & QA Associate">Clinical Data Entry & QA Associate</option>
+                <option value="Hospital Operations Coordinator">Hospital Operations Coordinator</option>
+              </select>
+              <span class="select-arrow"><i class="fas fa-chevron-down"></i></span>
+              <div class="hint"></div>
+            </div>
+          </div>
+
+          <div>
+            <label for="experience">Experience level</label>
+            <div class="input">
+              <select name="experience" id="experience" required>
+                <option value="" selected disabled>Select</option>
+                <option value="beginner">Beginner</option>
+                <option value="intermediate">Intermediate</option>
+                <option value="advanced">Advanced</option>
+              </select>
+              <span class="select-arrow"><i class="fas fa-chevron-down"></i></span>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <label for="institution">Institution / Organization (optional)</label>
+          <div class="input">
+            <input type="text" name="institution" id="institution" placeholder="e.g. Ahmedabad University / Hospital Name">
+            <div class="hint">Helps educators/employers group users (future).</div>
+          </div>
+        </div>
+
+        <div class="row2">
+          <div>
+            <label for="password1">Password</label>
+            <div class="input">
+              <input type="password" id="password1" name="password1" placeholder="Create password" minlength="6" required>
+              <button class="toggle" type="button" onclick="togglePass('password1', this)" aria-label="Show/Hide password">
+                <i class="far fa-eye"></i>
+              </button>
+            </div>
+            <div class="hint">Use 6+ characters.</div>
+          </div>
+
+          <div>
+            <label for="password2">Confirm</label>
+            <div class="input">
+              <input type="password" id="password2" name="password2" placeholder="Confirm password" minlength="6" required>
+              <button class="toggle" type="button" onclick="togglePass('password2', this)" aria-label="Show/Hide password">
+                <i class="far fa-eye"></i>
+              </button>
+            </div>
+            <div class="hint">Must match password.</div>
+          </div>
+        </div>
+
+        <div class="checks">
+          <input type="checkbox" id="terms" name="terms" required>
+          <p>I agree to the <a href="#" onclick="return false;">Terms</a> and <a href="#" onclick="return false;">Privacy</a>.</p>
+        </div>
+
+        <div class="actions">
+          <button type="submit">Create Account</button>
+          <div class="secondary">
+            Already have an account? <a href="{% url 'login' %}">Login</a>
+          </div>
+        </div>
+
+      </div>
+    </form>
+  </div>
+
+  <script>
+    function togglePass(id, btn){
+      const el = document.getElementById(id);
+      const icon = btn.querySelector("i");
+      if(el.type === "password"){
+        el.type = "text";
+        icon.classList.remove("fa-eye");
+        icon.classList.add("fa-eye-slash");
+      }else{
+        el.type = "password";
+        icon.classList.remove("fa-eye-slash");
+        icon.classList.add("fa-eye");
+      }
+    }
+  </script>
+</body>
+</html>

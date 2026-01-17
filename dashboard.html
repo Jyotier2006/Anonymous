@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% load static %}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dashboard | SkillSphere Healthcare</title>
+
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg0:#070A12;
+      --bg1:#0A1022;
+      --card: rgba(255,255,255,.06);
+      --card2: rgba(255,255,255,.05);
+      --border: rgba(255,255,255,.12);
+      --border2: rgba(255,255,255,.18);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.68);
+      --muted2: rgba(255,255,255,.58);
+      --shadow: 0 22px 70px rgba(0,0,0,.55);
+      --shadow2: 0 16px 46px rgba(0,0,0,.35);
+      --gradA: #6EE7FF;
+      --gradB: #A78BFA;
+      --good: #34D399;
+      --warn: #FBBF24;
+      --bad:  #FB7185;
+      --radius: 18px;
+    }
+
+    *{margin:0;padding:0;box-sizing:border-box;}
+    html,body{height:100%;}
+    body{
+      font-family:'Poppins',sans-serif;
+      color:#fff;
+      background:
+        radial-gradient(900px 560px at 12% 12%, rgba(110,231,255,.14), transparent 60%),
+        radial-gradient(820px 520px at 88% 18%, rgba(167,139,250,.14), transparent 62%),
+        radial-gradient(900px 640px at 50% 110%, rgba(52,211,153,.10), transparent 62%),
+        linear-gradient(180deg, var(--bg0), var(--bg1));
+      overflow:hidden;
+    }
+
+    /* Layout */
+    .app{
+      height:100%;
+      display:grid;
+      grid-template-columns: 280px 1fr;
+    }
+
+    /* Sidebar */
+    .sidebar{
+      border-right: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.03);
+      backdrop-filter: blur(14px);
+      padding: 18px 14px;
+      overflow:auto;
+    }
+
+    .brand{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      padding: 10px 10px 14px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
+      box-shadow: var(--shadow2);
+    }
+    .logo{
+      width:46px;height:46px;
+      border-radius:16px;
+      display:flex;align-items:center;justify-content:center;
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.12);
+      flex:0 0 auto;
+    }
+    .brand b{font-weight:900; font-size:14px; line-height:1.1;}
+    .brand span{display:block; margin-top:2px; font-size:11.5px; color:var(--muted);}
+
+    .nav{
+      margin-top: 14px;
+      display:grid;
+      gap:8px;
+    }
+    .nav a{
+      text-decoration:none;
+      color: var(--text);
+      font-weight:800;
+      font-size: 12.5px;
+      padding: 11px 12px;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.03);
+      display:flex;
+      align-items:center;
+      gap:10px;
+      transition: transform .14s ease, border-color .14s ease, background .14s ease;
+    }
+    .nav a:hover{
+      transform: translateY(-1px);
+      background: rgba(255,255,255,.05);
+      border-color: rgba(255,255,255,.16);
+    }
+    .nav a.active{
+      background: linear-gradient(135deg, rgba(110,231,255,.16), rgba(167,139,250,.12));
+      border-color: rgba(255,255,255,.20);
+    }
+    .nav i{ width:18px; text-align:center; opacity:.95; }
+
+    .sideCard{
+      margin-top: 14px;
+      padding: 12px;
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.10);
+    }
+    .sideCard h4{
+      font-size:12.5px;
+      font-weight:900;
+      margin-bottom:6px;
+    }
+    .sideCard p{
+      font-size:11.5px;
+      color: var(--muted);
+      line-height:1.45;
+    }
+    .pillRow{
+      margin-top: 10px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+    }
+    .pill{
+      font-size:11.5px;
+      padding: 6px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
+      color: var(--text);
+      white-space:nowrap;
+    }
+
+    .sideFooter{
+      margin-top: 14px;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .btn{
+      height:38px;
+      padding:0 12px;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+      color:#fff;
+      font-weight:900;
+      font-size:12px;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      cursor:pointer;
+      transition: transform .14s ease, box-shadow .14s ease, background .14s ease;
+    }
+    .btn:hover{ transform: translateY(-2px); box-shadow: 0 16px 36px rgba(0,0,0,.25); }
+    .btnPrimary{
+      border:none;
+      color:#071023;
+      background: linear-gradient(135deg, var(--gradA), var(--gradB));
+      box-shadow: 0 18px 44px rgba(0,0,0,.28);
+    }
+    .btnPrimary:hover{ box-shadow: 0 22px 56px rgba(0,0,0,.35); }
+
+    /* Main */
+    .main{
+      padding: 18px 16px;
+      overflow:auto;
+    }
+
+    .topbar{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom: 14px;
+    }
+    .hello{
+      padding: 14px;
+      border-radius: var(--radius);
+      background: var(--card);
+      border:1px solid var(--border);
+      box-shadow: var(--shadow2);
+      flex:1;
+      min-width: 260px;
+    }
+    .hello .t{
+      font-size: 18px;
+      font-weight: 900;
+      line-height: 1.2;
+    }
+    .hello .t .grad{
+      background: linear-gradient(135deg, var(--gradA), var(--gradB));
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+    }
+    .hello .sub{
+      margin-top: 6px;
+      font-size: 12.5px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .quick{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+      min-width: 280px;
+    }
+
+    /* Cards grid */
+    .grid{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 14px;
+      align-items: start;
+    }
+
+    .card{
+      border-radius: var(--radius);
+      background: var(--card);
+      border:1px solid var(--border);
+      box-shadow: var(--shadow2);
+      padding: 14px;
+    }
+    .cardHead{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom: 10px;
+    }
+    .cardHead h3{
+      font-size: 13.5px;
+      font-weight: 900;
+      letter-spacing: .2px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    .small{
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .badge{
+      font-size: 11.5px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+      color: var(--text);
+      white-space:nowrap;
+    }
+
+    /* Progress ring (simple) */
+    .scoreWrap{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .scoreBox{
+      padding: 12px;
+      border-radius: 16px;
+      background: rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.10);
+    }
+    .scoreBig{
+      font-size: 30px;
+      font-weight: 900;
+      line-height: 1;
+    }
+    .scoreLabel{
+      margin-top: 6px;
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+    .meter{
+      margin-top: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.10);
+      overflow:hidden;
+    }
+    .meter > div{
+      height:100%;
+      width:68%;
+      background: linear-gradient(135deg, var(--good), var(--gradA));
+      border-radius: 999px;
+    }
+
+    /* Gap list */
+    .list{
+      display:grid;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .li{
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      padding: 10px 10px;
+      border-radius: 16px;
+      background: rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.10);
+    }
+    .li i{ margin-top:2px; width:18px; text-align:center; opacity:.95; }
+    .li b{ font-size: 12.5px; }
+    .li span{
+      display:block;
+      margin-top:2px;
+      font-size: 11.5px;
+      color: var(--muted);
+      line-height: 1.35;
+    }
+
+    /* Skills chips */
+    .chipRow{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top: 10px;
+    }
+    .chip{
+      font-size: 11.5px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
+      color: var(--text);
+      white-space:nowrap;
+    }
+
+    /* Roadmap */
+    .roadGrid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .road{
+      padding: 12px;
+      border-radius: 16px;
+      background: rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.10);
+    }
+    .road h4{ font-size: 12.5px; font-weight: 900; margin-bottom: 6px; }
+    .road p{ font-size: 11.5px; color: var(--muted); line-height: 1.45; }
+    .road .miniBtn{
+      margin-top: 10px;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      font-size: 12px;
+      font-weight: 900;
+      color: var(--text);
+      text-decoration:none;
+      padding: 8px 10px;
+      border-radius: 12px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
+    }
+
+    /* API */
+    .apiHint{
+      margin-top:10px;
+      padding: 10px 10px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(110,231,255,.10), rgba(167,139,250,.08));
+      border:1px solid rgba(255,255,255,.12);
+    }
+    .apiHint b{ font-size: 12.5px; font-weight: 900; }
+    .apiHint div{ margin-top:2px; font-size: 11.5px; color: var(--muted); line-height:1.35; }
+
+    /* Mobile */
+    @media (max-width: 980px){
+      body{ overflow:auto; }
+      .app{ grid-template-columns: 1fr; }
+      .sidebar{
+        border-right:none;
+        border-bottom: 1px solid rgba(255,255,255,.10);
+      }
+      .grid{ grid-template-columns: 1fr; }
+      .scoreWrap{ grid-template-columns: 1fr; }
+      .roadGrid{ grid-template-columns: 1fr; }
+      .quick{ justify-content:flex-start; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="logo"><i class="fas fa-heartbeat"></i></div>
+        <div>
+          <b>SkillSphere</b>
+          <span>Healthcare Skill Intelligence</span>
+        </div>
+      </div>
+
+      <nav class="nav" style="margin-top:14px;">
+        <a href="#overview" class="active"><i class="fas fa-th-large"></i> Overview</a>
+        <a href="#readiness"><i class="fas fa-percentage"></i> Readiness</a>
+        <a href="#gaps"><i class="fas fa-search"></i> Skill Gaps</a>
+        <a href="#roadmap"><i class="fas fa-route"></i> Roadmap</a>
+        <a href="#api"><i class="fas fa-plug"></i> API</a>
+        <a href="#privacy"><i class="fas fa-shield-alt"></i> Privacy</a>
+      </nav>
+
+      <div class="sideCard">
+        <h4><i class="fas fa-bullseye"></i> Selected Domain</h4>
+        <p>We focus on one domain (Healthcare) for depth-first delivery and better judging score.</p>
+        <div class="pillRow">
+          <span class="pill">Health Data</span>
+          <span class="pill">Clinical QA</span>
+          <span class="pill">Hospital Ops</span>
+        </div>
+      </div>
+
+      <div class="sideCard">
+        <h4><i class="fas fa-play-circle"></i> Demo Script (30 sec)</h4>
+        <p>Open dashboard → show readiness % → highlight gaps → show roadmap + API results.</p>
+      </div>
+
+      <div class="sideFooter">
+        {% if user.is_authenticated %}
+          <a class="btn btnPrimary" href="#roadmap"><i class="fas fa-rocket"></i> Continue</a>
+          <a class="btn" href="{% url 'login' %}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        {% else %}
+          <a class="btn btnPrimary" href="{% url 'signup' %}"><i class="fas fa-user-plus"></i> Create</a>
+          <a class="btn" href="{% url 'login' %}"><i class="fas fa-sign-in-alt"></i> Login</a>
+        {% endif %}
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main">
+
+      <!-- TOPBAR -->
+      <div class="topbar" id="overview">
+        <div class="hello">
+          <div class="t">
+            Dashboard <span class="grad">Overview</span>
+          </div>
+          <div class="sub">
+            A living system that captures skills, projects, and learning activities, and converts them into
+            readiness %, gaps, and an actionable roadmap for healthcare roles.
+          </div>
+        </div>
+
+        <div class="quick">
+          <a class="btn btnPrimary" href="#readiness"><i class="fas fa-chart-line"></i> View Readiness</a>
+          <a class="btn" href="#gaps"><i class="fas fa-search"></i> View Gaps</a>
+          <a class="btn" href="#api"><i class="fas fa-plug"></i> API Integration</a>
+        </div>
+      </div>
+
+      <div class="grid">
+
+        <!-- LEFT COLUMN -->
+        <div>
+
+          <!-- READINESS -->
+          <div class="card" id="readiness">
+            <div class="cardHead">
+              <h3><i class="fas fa-percentage"></i> Career Readiness</h3>
+              <span class="badge"><i class="fas fa-briefcase-medical"></i> Health Data Assistant</span>
+            </div>
+
+            <div class="scoreWrap">
+              <div class="scoreBox">
+                <div class="scoreBig">68%</div>
+                <div class="scoreLabel">
+                  Current readiness based on required skills (weighted).
+                  Increase missing skill levels to raise readiness.
+                </div>
+                <div class="meter"><div></div></div>
+                <div class="chipRow">
+                  <span class="chip"><i class="fas fa-check"></i> Excel 3/3</span>
+                  <span class="chip"><i class="fas fa-check"></i> SQL 3/3</span>
+                  <span class="chip"><i class="fas fa-exclamation-triangle"></i> Data Viz 1/2</span>
+                  <span class="chip"><i class="fas fa-exclamation-triangle"></i> Privacy 0/2</span>
+                </div>
+              </div>
+
+              <div class="scoreBox">
+                <div style="font-weight:900; font-size:12.5px; display:flex; gap:10px; align-items:center;">
+                  <i class="fas fa-info-circle"></i> How it’s calculated
+                </div>
+                <div class="list">
+                  <div class="li">
+                    <i class="fas fa-layer-group"></i>
+                    <div>
+                      <b>Weighted Skills</b>
+                      <span>Each role skill has a required level and weight (importance).</span>
+                    </div>
+                  </div>
+                  <div class="li">
+                    <i class="fas fa-equals"></i>
+                    <div>
+                      <b>Normalized Score</b>
+                      <span>We cap contributions at 100% for each required skill.</span>
+                    </div>
+                  </div>
+                  <div class="li">
+                    <i class="fas fa-sync-alt"></i>
+                    <div>
+                      <b>Living System</b>
+                      <span>Every update re-computes readiness and roadmap automatically.</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div style="margin-top:10px; display:flex; gap:10px; flex-wrap:wrap;">
+                  <a class="btn btnPrimary" href="#roadmap"><i class="fas fa-route"></i> Get Roadmap</a>
+                  <a class="btn" href="#gaps"><i class="fas fa-search"></i> See Gaps</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- GAPS -->
+          <div class="card" id="gaps" style="margin-top:14px;">
+            <div class="cardHead">
+              <h3><i class="fas fa-search"></i> Skill Gaps (Actionable)</h3>
+              <span class="badge"><i class="fas fa-bolt"></i> Top Priority</span>
+            </div>
+
+            <div class="list">
+              <div class="li">
+                <i class="fas fa-exclamation-triangle" style="color: var(--warn);"></i>
+                <div>
+                  <b>Data Visualization</b>
+                  <span>Target: Level 2 • Current: Level 1 — Improve charts, dashboards, storytelling.</span>
+                </div>
+              </div>
+
+              <div class="li">
+                <i class="fas fa-exclamation-triangle" style="color: var(--bad);"></i>
+                <div>
+                  <b>Patient Data Privacy Basics</b>
+                  <span>Target: Level 2 • Current: Level 0 — Learn consent, access control, safe handling.</span>
+                </div>
+              </div>
+
+              <div class="li">
+                <i class="fas fa-exclamation-triangle" style="color: var(--warn);"></i>
+                <div>
+                  <b>Documentation Quality</b>
+                  <span>Target: Level 2 • Current: Level 1 — Improve clarity, standards, and reporting format.</span>
+                </div>
+              </div>
+            </div>
+
+            <div style="margin-top:10px; display:flex; gap:10px; flex-wrap:wrap;">
+              <a class="btn btnPrimary" href="#api"><i class="fas fa-plug"></i> Fetch Courses via API</a>
+              <a class="btn" href="#roadmap"><i class="fas fa-route"></i> Suggested Roadmap</a>
+            </div>
+          </div>
+
+          <!-- ROADMAP -->
+          <div class="card" id="roadmap" style="margin-top:14px;">
+            <div class="cardHead">
+              <h3><i class="fas fa-route"></i> Roadmap (7-day & 30-day)</h3>
+              <span class="badge"><i class="fas fa-check-circle"></i> Practical</span>
+            </div>
+
+            <div class="roadGrid">
+              <div class="road">
+                <h4><i class="fas fa-calendar-week"></i> Next 7 Days</h4>
+                <p>
+                  Focus on the highest ROI gaps for your selected role:
+                  <b>Privacy basics</b> + <b>Data Visualization</b>.
+                </p>
+                <div class="list">
+                  <div class="li">
+                    <i class="fas fa-play"></i>
+                    <div>
+                      <b>Privacy Basics</b>
+                      <span>Watch 2 short videos + make notes + create a checklist.</span>
+                    </div>
+                  </div>
+                  <div class="li">
+                    <i class="fas fa-laptop-code"></i>
+                    <div>
+                      <b>Mini Project</b>
+                      <span>Build a simple dashboard from a healthcare dataset (CSV).</span>
+                    </div>
+                  </div>
+                </div>
+                <a class="miniBtn" href="#api"><i class="fas fa-plug"></i> Get learning links</a>
+              </div>
+
+              <div class="road">
+                <h4><i class="fas fa-calendar-alt"></i> Next 30 Days</h4>
+                <p>
+                  Convert learning into evidence:
+                  projects + documentation + measurable outcomes for better readiness.
+                </p>
+                <div class="list">
+                  <div class="li">
+                    <i class="fas fa-database"></i>
+                    <div>
+                      <b>SQL + Reporting</b>
+                      <span>Write 15 queries + create 3 KPI reports (weekly).</span>
+                    </div>
+                  </div>
+                  <div class="li">
+                    <i class="fas fa-file-alt"></i>
+                    <div>
+                      <b>Portfolio Evidence</b>
+                      <span>Upload results, screenshots, summary, and role mapping.</span>
+                    </div>
+                  </div>
+                </div>
+                <a class="miniBtn" href="#privacy"><i class="fas fa-shield-alt"></i> Keep it compliant</a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- RIGHT COLUMN -->
+        <div>
+
+          <!-- ROLE + FRAMEWORK -->
+          <div class="card">
+            <div class="cardHead">
+              <h3><i class="fas fa-briefcase-medical"></i> Current Focus</h3>
+              <span class="badge"><i class="fas fa-heartbeat"></i> Healthcare</span>
+            </div>
+
+            <div class="list">
+              <div class="li">
+                <i class="fas fa-user"></i>
+                <div>
+                  <b>User Profile</b>
+                  <span>Tracks skills, courses, projects, achievements and learning activities.</span>
+                </div>
+              </div>
+              <div class="li">
+                <i class="fas fa-project-diagram"></i>
+                <div>
+                  <b>Domain Skill Framework</b>
+                  <span>Role requirements & weights tuned for healthcare scenarios.</span>
+                </div>
+              </div>
+              <div class="li">
+                <i class="fas fa-chart-bar"></i>
+                <div>
+                  <b>Visualization</b>
+                  <span>Readiness trend + gap heatmap + pathway timeline (coming next).</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="chipRow">
+              <span class="chip">Health Data Assistant</span>
+              <span class="chip">Clinical Data QA</span>
+              <span class="chip">Hospital Ops</span>
+            </div>
+          </div>
+
+          <!-- API -->
+          <div class="card" id="api" style="margin-top:14px;">
+            <div class="cardHead">
+              <h3><i class="fas fa-plug"></i> External API Integration</h3>
+              <span class="badge"><i class="fas fa-check"></i> Required</span>
+            </div>
+
+            <div class="small">
+              Fastest hackathon integration: <b>YouTube Search API</b> to fetch learning resources for missing skills.
+            </div>
+
+            <div class="apiHint">
+              <b><i class="fas fa-bolt"></i> Suggested API flow</b>
+              <div>
+                Missing skill → search “Patient Data Privacy basics” → show top results → save into roadmap.
+              </div>
+            </div>
+
+            <div class="list">
+              <div class="li">
+                <i class="fas fa-search"></i>
+                <div>
+                  <b>Query Builder</b>
+                  <span>Auto-generate search terms using role + skill + level.</span>
+                </div>
+              </div>
+              <div class="li">
+                <i class="fas fa-save"></i>
+                <div>
+                  <b>Save Results</b>
+                  <span>Store recommended links in database for the user’s roadmap.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- PRIVACY -->
+          <div class="card" id="privacy" style="margin-top:14px;">
+            <div class="cardHead">
+              <h3><i class="fas fa-shield-alt"></i> Privacy & Data Quality</h3>
+              <span class="badge"><i class="fas fa-user-shield"></i> Trust</span>
+            </div>
+
+            <div class="list">
+              <div class="li">
+                <i class="fas fa-lock"></i>
+                <div>
+                  <b>Minimal Data</b>
+                  <span>Only store education + skill data. No sensitive patient info needed.</span>
+                </div>
+              </div>
+              <div class="li">
+                <i class="fas fa-check-double"></i>
+                <div>
+                  <b>Evidence & Validation</b>
+                  <span>Optional links + educator review to ensure accuracy and reduce fake claims.</span>
+                </div>
+              </div>
+              <div class="li">
+                <i class="fas fa-universal-access"></i>
+                <div>
+                  <b>Inclusive UX</b>
+                  <span>Simple, mobile-friendly, and low-friction for early-career users.</span>
+                </div>
+              </div>
+            </div>
+
+            <div style="margin-top:10px; display:flex; gap:10px; flex-wrap:wrap;">
+              <a class="btn" href="#readiness"><i class="fas fa-arrow-up"></i> Back to Readiness</a>
+              {% if not user.is_authenticated %}
+                <a class="btn btnPrimary" href="{% url 'signup' %}"><i class="fas fa-user-plus"></i> Create Account</a>
+              {% endif %}
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script>
+    // Sidebar active link highlight based on scroll (minimal JS)
+    const links = Array.from(document.querySelectorAll(".nav a"));
+    const ids = links.map(a => (a.getAttribute("href") || "").replace("#","")).filter(Boolean);
+    const sections = ids.map(id => document.getElementById(id)).filter(Boolean);
+
+    const setActive = (id) => {
+      links.forEach(a => {
+        const href = (a.getAttribute("href") || "");
+        a.classList.toggle("active", href === ("#" + id));
+      });
+    };
+
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if(e.isIntersecting) setActive(e.target.id);
+      });
+    }, { rootMargin: "-55% 0px -40% 0px", threshold: 0.03 });
+
+    sections.forEach(s => obs.observe(s));
+  </script>
+</body>
+</html>

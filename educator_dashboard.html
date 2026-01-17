@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Educator Dashboard | MediBridge</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    body{font-family:Poppins;background:#0b1020;color:#fff;margin:0}
+    .wrap{max-width:1000px;margin:0 auto;padding:18px}
+    .card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:14px;margin-bottom:12px}
+    input,textarea,select{width:100%;padding:10px 12px;border-radius:12px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.05);color:#fff;outline:none}
+    textarea{min-height:90px}
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    @media(max-width:760px){.grid2{grid-template-columns:1fr}}
+    .btn{border:none;border-radius:12px;padding:10px 12px;font-weight:900;cursor:pointer;background:linear-gradient(135deg,#6EE7FF,#A78BFA);color:#071023}
+    .muted{opacity:.75;font-size:12.5px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h2 style="margin:0">Educator Dashboard</h2>
+      <p class="muted">Create healthcare learning topics for students. Students can mark progress in their dashboard.</p>
+    </div>
+
+    <div class="card">
+      <h3 style="margin-top:0">Create a Topic</h3>
+      <form method="post">
+        {% csrf_token %}
+        <div class="grid2">
+          <input name="title" placeholder="Topic title (e.g. SQL Basics for Healthcare Data)" required>
+          <select name="difficulty">
+            <option value="beginner">Beginner</option>
+            <option value="intermediate">Intermediate</option>
+            <option value="advanced">Advanced</option>
+          </select>
+        </div>
+        <div class="grid2" style="margin-top:10px;">
+          <input name="skill_tag" placeholder="Skill tag (SQL, Excel, Privacy, Terminology)">
+          <input name="est_minutes" type="number" min="5" value="30" placeholder="Estimated minutes">
+        </div>
+        <textarea name="description" placeholder="What student will learn + outcome" style="margin-top:10px;"></textarea>
+        <input name="resource_link" placeholder="Resource link (YouTube/Coursera/etc.) optional" style="margin-top:10px;">
+        <button class="btn" type="submit" style="margin-top:10px;">Create Topic</button>
+      </form>
+    </div>
+
+    <div class="card">
+      <h3 style="margin-top:0">All Topics</h3>
+      {% for t in topics %}
+        <div style="padding:10px;border:1px solid rgba(255,255,255,.10);border-radius:14px;margin-bottom:10px;background:rgba(255,255,255,.04)">
+          <b>{{ t.title }}</b>
+          <div class="muted">{{ t.difficulty }} • {{ t.est_minutes }} min • Skill: {{ t.skill_tag }}</div>
+          <div class="muted" style="margin-top:6px">{{ t.description }}</div>
+        </div>
+      {% empty %}
+        <div class="muted">No topics created yet.</div>
+      {% endfor %}
+    </div>
+  </div>
+</body>
+</html>

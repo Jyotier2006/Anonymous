@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Profile Builder | MediBridge</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg0:#070A12; --bg1:#0A1022;
+      --card: rgba(255,255,255,.06);
+      --border: rgba(255,255,255,.12);
+      --muted: rgba(255,255,255,.68);
+      --text: rgba(255,255,255,.92);
+      --gradA:#6EE7FF; --gradB:#A78BFA;
+      --radius:18px;
+    }
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{
+      font-family:Poppins,system-ui;
+      background: radial-gradient(900px 560px at 12% 10%, rgba(110,231,255,.14), transparent 60%),
+                  radial-gradient(820px 520px at 88% 18%, rgba(167,139,250,.14), transparent 62%),
+                  linear-gradient(180deg,var(--bg0),var(--bg1));
+      color:#fff; min-height:100vh;
+    }
+    .wrap{max-width:1100px;margin:0 auto;padding:18px}
+    .top{
+      display:flex;gap:12px;flex-wrap:wrap;align-items:flex-start;justify-content:space-between;
+      margin-bottom:12px;
+    }
+    .card{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      padding:14px;
+      width:100%;
+    }
+    .title{font-size:18px;font-weight:900}
+    .muted{color:var(--muted);font-size:12.5px;line-height:1.5;margin-top:6px}
+    .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+    input, textarea, select{
+      width:100%;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.05);
+      color:#fff;
+      padding:10px 12px;
+      outline:none;
+      font-size:13px;
+    }
+    textarea{min-height:90px;resize:vertical}
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    @media(max-width:760px){.grid2{grid-template-columns:1fr}}
+    .sectionHead{
+      display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;
+      margin-top:14px;margin-bottom:10px;
+    }
+    .sectionHead b{font-weight:900}
+    .btn{
+      border:none;
+      border-radius:14px;
+      padding:10px 12px;
+      font-weight:900;
+      cursor:pointer;
+      color:#071023;
+      background: linear-gradient(135deg, var(--gradA), var(--gradB));
+    }
+    .btn2{
+      border:1px solid rgba(255,255,255,.14);
+      border-radius:14px;
+      padding:10px 12px;
+      font-weight:900;
+      cursor:pointer;
+      background: rgba(255,255,255,.05);
+      color:#fff;
+    }
+    .table{display:grid;gap:10px}
+    .item{
+      padding:12px;border-radius:16px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
+      display:grid;gap:10px;
+    }
+    .miniGrid{display:grid;grid-template-columns:1.2fr .6fr .2fr;gap:10px;align-items:center}
+    @media(max-width:760px){.miniGrid{grid-template-columns:1fr}}
+    .del{
+      height:42px;border-radius:14px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.05);
+      color:#fff;font-weight:900;cursor:pointer;
+    }
+    .foot{
+      display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;align-items:center;margin-top:14px
+    }
+    .msg{margin-top:10px}
+    .msg div{padding:10px 12px;border-radius:14px;background:rgba(52,211,153,.12);border:1px solid rgba(52,211,153,.25);color:#d1fae5;font-size:12.5px}
+    .err div{background:rgba(251,113,133,.12);border-color:rgba(251,113,133,.25);color:#ffe4e6}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <div class="card" style="flex:1;min-width:280px">
+        <div class="title">Profile Builder</div>
+        <div class="muted">Add your skills, courses, projects, and achievements. This data powers the Student Dashboard readiness score, gaps, and recommendations.</div>
+      </div>
+      <div class="card" style="width:320px;min-width:280px">
+        <div class="title" style="font-size:14px">Quick Links</div>
+        <div class="row">
+          <a class="btn2" style="text-decoration:none;text-align:center;flex:1" href="{% url 'student_dashboard' %}">Back to Dashboard</a>
+          <button class="btn2" type="button" onclick="window.scrollTo({top:0,behavior:'smooth'})">Top</button>
+        </div>
+      </div>
+    </div>
+
+    {% if messages %}
+      <div class="msg">
+        {% for m in messages %}
+          <div class="{% if m.tags == 'error' %}err{% endif %}"><div>{{ m }}</div></div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <form method="post">
+      {% csrf_token %}
+
+      <div class="card">
+        <div class="sectionHead"><b>Basic Info</b></div>
+        <div class="grid2">
+          <div>
+            <label class="muted">Headline</label>
+            <input name="headline" value="{{ profile.headline|default:'' }}" placeholder="e.g. Health Data | SQL | Excel | Reporting">
+          </div>
+          <div>
+            <label class="muted">Target Role</label>
+            <input name="target_role" value="{{ profile.target_role|default:'Health Data Assistant' }}" placeholder="Health Data Assistant">
+          </div>
+        </div>
+        <div style="margin-top:10px">
+          <label class="muted">Goal / Bio</label>
+          <textarea name="bio" placeholder="What are you trying to achieve?">{{ profile.bio|default:'' }}</textarea>
+        </div>
+      </div>
+
+      <!-- Skills -->
+      <div class="card" style="margin-top:12px">
+        <div class="sectionHead">
+          <b>Skills (1–5)</b>
+          <button class="btn" type="button" onclick="addSkill()">+ Add Skill</button>
+        </div>
+        <div id="skillsWrap" class="table">
+          {% for s in skills %}
+          <div class="item miniGrid">
+            <input name="skill_name[]" value="{{ s.name }}" placeholder="Skill name (e.g. SQL)">
+            <select name="skill_level[]">
+              {% for i in "12345" %}
+                <option value="{{ i }}" {% if s.level|stringformat:"s" == i %}selected{% endif %}>Level {{ i }}</option>
+              {% endfor %}
+            </select>
+            <button class="del" type="button" onclick="removeRow(this)">X</button>
+          </div>
+          {% empty %}
+          <div class="item miniGrid">
+            <input name="skill_name[]" placeholder="Skill name (e.g. SQL)">
+            <select name="skill_level[]">
+              <option value="1">Level 1</option><option value="2">Level 2</option><option value="3">Level 3</option><option value="4">Level 4</option><option value="5">Level 5</option>
+            </select>
+            <button class="del" type="button" onclick="removeRow(this)">X</button>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Courses -->
+      <div class="card" style="margin-top:12px">
+        <div class="sectionHead">
+          <b>Courses</b>
+          <button class="btn" type="button" onclick="addCourse()">+ Add Course</button>
+        </div>
+        <div id="coursesWrap" class="table">
+          {% for c in courses %}
+          <div class="item">
+            <div class="grid2">
+              <input name="course_title[]" value="{{ c.title }}" placeholder="Course title">
+              <input name="course_provider[]" value="{{ c.provider }}" placeholder="Provider (Coursera/YouTube/etc.)">
+            </div>
+            <div class="grid2">
+              <select name="course_status[]">
+                <option value="in_progress" {% if c.status == "in_progress" %}selected{% endif %}>In progress</option>
+                <option value="completed" {% if c.status == "completed" %}selected{% endif %}>Completed</option>
+              </select>
+              <input name="course_hours[]" value="{{ c.hours }}" type="number" min="0" placeholder="Hours spent">
+            </div>
+            <button class="del" type="button" onclick="removeRow(this)">Remove</button>
+          </div>
+          {% empty %}
+          <div class="item">
+            <div class="grid2">
+              <input name="course_title[]" placeholder="Course title">
+              <input name="course_provider[]" placeholder="Provider (Coursera/YouTube/etc.)">
+            </div>
+            <div class="grid2">
+              <select name="course_status[]">
+                <option value="in_progress">In progress</option>
+                <option value="completed">Completed</option>
+              </select>
+              <input name="course_hours[]" type="number" min="0" placeholder="Hours spent">
+            </div>
+            <button class="del" type="button" onclick="removeRow(this)">Remove</button>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Projects -->
+      <div class="card" style="margin-top:12px">
+        <div class="sectionHead">
+          <b>Projects</b>
+          <button class="btn" type="button" onclick="addProject()">+ Add Project</button>
+        </div>
+        <div id="projectsWrap" class="table">
+          {% for p in projects %}
+          <div class="item">
+            <input name="project_title[]" value="{{ p.title }}" placeholder="Project title">
+            <textarea name="project_desc[]" placeholder="What did you build?">{{ p.description }}</textarea>
+            <div class="grid2">
+              <input name="project_tools[]" value="{{ p.tools }}" placeholder="Tools (SQL, Excel, Django...)">
+              <input name="project_link[]" value="{{ p.link }}" placeholder="Proof link (GitHub/Drive) optional">
+            </div>
+            <button class="del" type="button" onclick="removeRow(this)">Remove</button>
+          </div>
+          {% empty %}
+          <div class="item">
+            <input name="project_title[]" placeholder="Project title">
+            <textarea name="project_desc[]" placeholder="What did you build?"></textarea>
+            <div class="grid2">
+              <input name="project_tools[]" placeholder="Tools (SQL, Excel, Django...)">
+              <input name="project_link[]" placeholder="Proof link (GitHub/Drive) optional">
+            </div>
+            <button class="del" type="button" onclick="removeRow(this)">Remove</button>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Achievements -->
+      <div class="card" style="margin-top:12px">
+        <div class="sectionHead">
+          <b>Achievements</b>
+          <button class="btn" type="button" onclick="addAch()">+ Add Achievement</button>
+        </div>
+        <div id="achWrap" class="table">
+          {% for a in achievements %}
+          <div class="item">
+            <div class="grid2">
+              <input name="ach_title[]" value="{{ a.title }}" placeholder="Achievement title">
+              <input name="ach_date[]" value="{{ a.date|date:'Y-m-d' }}" type="date">
+            </div>
+            <input name="ach_link[]" value="{{ a.proof_link }}" placeholder="Proof link (optional)">
+            <button class="del" type="button" onclick="removeRow(this)">Remove</button>
+          </div>
+          {% empty %}
+          <div class="item">
+            <div class="grid2">
+              <input name="ach_title[]" placeholder="Achievement title">
+              <input name="ach_date[]" type="date">
+            </div>
+            <input name="ach_link[]" placeholder="Proof link (optional)">
+            <button class="del" type="button" onclick="removeRow(this)">Remove</button>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="foot">
+        <button class="btn" type="submit">Save Profile</button>
+        <a class="btn2" style="text-decoration:none" href="{% url 'student_dashboard' %}">Go to Dashboard</a>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    function removeRow(btn){ btn.closest(".item").remove(); }
+
+    function addSkill(){
+      document.getElementById("skillsWrap").insertAdjacentHTML("beforeend", `
+        <div class="item miniGrid">
+          <input name="skill_name[]" placeholder="Skill name (e.g. SQL)">
+          <select name="skill_level[]">
+            <option value="1">Level 1</option><option value="2">Level 2</option>
+            <option value="3">Level 3</option><option value="4">Level 4</option><option value="5">Level 5</option>
+          </select>
+          <button class="del" type="button" onclick="removeRow(this)">X</button>
+        </div>
+      `);
+    }
+
+    function addCourse(){
+      document.getElementById("coursesWrap").insertAdjacentHTML("beforeend", `
+        <div class="item">
+          <div class="grid2">
+            <input name="course_title[]" placeholder="Course title">
+            <input name="course_provider[]" placeholder="Provider (Coursera/YouTube/etc.)">
+          </div>
+          <div class="grid2">
+            <select name="course_status[]">
+              <option value="in_progress">In progress</option>
+              <option value="completed">Completed</option>
+            </select>
+            <input name="course_hours[]" type="number" min="0" placeholder="Hours spent">
+          </div>
+          <button class="del" type="button" onclick="removeRow(this)">Remove</button>
+        </div>
+      `);
+    }
+
+    function addProject(){
+      document.getElementById("projectsWrap").insertAdjacentHTML("beforeend", `
+        <div class="item">
+          <input name="project_title[]" placeholder="Project title">
+          <textarea name="project_desc[]" placeholder="What did you build?"></textarea>
+          <div class="grid2">
+            <input name="project_tools[]" placeholder="Tools (SQL, Excel, Django...)">
+            <input name="project_link[]" placeholder="Proof link (GitHub/Drive) optional">
+          </div>
+          <button class="del" type="button" onclick="removeRow(this)">Remove</button>
+        </div>
+      `);
+    }
+
+    function addAch(){
+      document.getElementById("achWrap").insertAdjacentHTML("beforeend", `
+        <div class="item">
+          <div class="grid2">
+            <input name="ach_title[]" placeholder="Achievement title">
+            <input name="ach_date[]" type="date">
+          </div>
+          <input name="ach_link[]" placeholder="Proof link (optional)">
+          <button class="del" type="button" onclick="removeRow(this)">Remove</button>
+        </div>
+      `);
+    }
+  </script>
+</body>
+</html>

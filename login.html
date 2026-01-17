@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% load static %}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login | MediBridge Healthcare</title>
+
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+
+    body{
+      font-family:'Poppins',sans-serif;
+      background: url("https://img.freepik.com/free-vector/clean-medical-background_53876-97927.jpg?semt=ais_hybrid&w=740&q=80") no-repeat center/cover;
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:16px;
+      position:relative;
+      overflow:hidden;
+      color:#fff;
+    }
+    body::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:rgba(0,0,0,.45);
+      pointer-events:none;
+    }
+
+    .wrap{
+      width:100%;
+      max-width:920px;
+      position:relative;
+      z-index:2;
+      display:grid;
+      grid-template-columns: 1.05fr 1fr;
+      gap:16px;
+      align-items:center;
+      animation: popIn .65s ease both;
+    }
+    @keyframes popIn{
+      from{opacity:0; transform:translateY(14px) scale(.99);}
+      to{opacity:1; transform:translateY(0) scale(1);}
+    }
+
+    /* Left panel */
+    .brandPanel{
+      padding:18px;
+      border-radius:18px;
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.18);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 18px 60px rgba(0,0,0,.35);
+      max-height:92vh;
+    }
+    .brandTop{ display:flex; gap:12px; align-items:center; }
+    .logo{
+      width:56px;height:56px;
+      border-radius:18px;
+      display:flex; align-items:center; justify-content:center;
+      background:rgba(255,255,255,.14);
+      border:1px solid rgba(255,255,255,.22);
+      box-shadow:0 18px 40px rgba(0,0,0,.25);
+      transition: transform .2s ease;
+      flex:0 0 auto;
+    }
+    .logo:hover{ transform: translateY(-2px); }
+    .brandPanel h1{
+      font-size:22px;
+      font-weight:900;
+      line-height:1.1;
+    }
+    .brandPanel p{
+      margin-top:6px;
+      font-size:13px;
+      color:rgba(255,255,255,.90);
+    }
+    .chips{
+      margin-top:12px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+    }
+    .chip{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:7px 10px;
+      border-radius:999px;
+      background:rgba(255,255,255,.10);
+      border:1px solid rgba(255,255,255,.18);
+      font-size:12px;
+      color:rgba(255,255,255,.92);
+      white-space:nowrap;
+    }
+    .miniInfo{
+      margin-top:12px;
+      padding:12px;
+      border-radius:16px;
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.16);
+      font-size:12px;
+      color:rgba(255,255,255,.90);
+      line-height:1.45;
+    }
+    .miniInfo b{ color:#fff; }
+
+    /* Right form */
+    form{
+      width:100%;
+      border-radius:18px;
+      background:rgba(255,255,255,.14);
+      border:1px solid rgba(255,255,255,.22);
+      backdrop-filter: blur(14px);
+      box-shadow: 0 22px 60px rgba(0,0,0,.50);
+      padding:16px 16px;
+      max-height:92vh;
+    }
+
+    .title{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:12px;
+      margin-bottom:8px;
+    }
+    .title h3{
+      font-size:18px;
+      font-weight:900;
+      line-height:1.15;
+    }
+    .subtitle{
+      font-size:12px;
+      color:rgba(255,255,255,.88);
+      margin-top:3px;
+    }
+    .badge{
+      font-size:12px;
+      padding:7px 10px;
+      border-radius:999px;
+      background:rgba(255,255,255,.12);
+      border:1px solid rgba(255,255,255,.22);
+      color:rgba(255,255,255,.92);
+      white-space:nowrap;
+    }
+
+    .msg{
+      background: rgba(255, 255, 255, 0.14);
+      border: 1px solid rgba(255,255,255,.22);
+      border-radius: 12px;
+      padding: 8px 10px;
+      color: rgba(255,255,255,.95);
+      font-size: 12px;
+      margin: 8px 0 10px;
+    }
+
+    label{
+      display:block;
+      font-size:12px;
+      font-weight:800;
+      color:rgba(255,255,255,.92);
+      margin: 10px 0 5px;
+    }
+
+    .input{ position:relative; }
+    input{
+  height:42px;
+  width:100%;
+  border-radius:12px;
+  padding:0 44px 0 12px;  /* ⬅ extra space on right for eye icon */
+  font-size:13px;
+  font-weight:600;
+  color:#fff;
+  background:rgba(255,255,255,.16);
+  border:1px solid rgba(255,255,255,.18);
+  outline:none;
+  transition:.16s ease;
+}
+
+    input::placeholder{ color:rgba(255,255,255,.78); }
+    input:focus{
+      border-color:rgba(255,255,255,.52);
+      box-shadow:0 0 0 4px rgba(255,255,255,.11);
+    }
+
+    /* Make room for the eye button */
+.has-toggle{
+  padding-right: 56px !important;  /* force space even if other CSS overrides */
+}
+
+/* Make toggle button fixed size and not push into text */
+.toggle{
+  position:absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background: transparent;
+  border: none;
+  color: rgba(255,255,255,.92);
+  cursor: pointer;
+  padding: 0;            /* IMPORTANT: remove padding so it doesn’t become wide */
+}
+
+
+    .rowActions{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      margin-top:10px;
+      gap:10px;
+      font-size:12px;
+      color:rgba(255,255,255,.90);
+    }
+    .rowActions a{
+      color:#fff;
+      font-weight:800;
+      text-decoration:none;
+      border-bottom:1px dashed rgba(255,255,255,.65);
+    }
+    .remember{
+      display:flex; align-items:center; gap:8px;
+    }
+    .remember input{ width:16px; height:16px; }
+
+    button{
+      width:100%;
+      height:46px;
+      margin-top:12px;
+      border:none;
+      border-radius:14px;
+      cursor:pointer;
+      font-weight:900;
+      font-size:15px;
+      color:#0b1020;
+      background:linear-gradient(135deg,#ffffff,#dfefff);
+      box-shadow:0 18px 40px rgba(0,0,0,.28);
+      transition:transform .14s ease, box-shadow .14s ease;
+    }
+    button:hover{
+      transform:translateY(-2px);
+      box-shadow:0 22px 52px rgba(0,0,0,.35);
+    }
+
+    .secondary{
+      text-align:center;
+      margin-top:10px;
+      font-size:12.5px;
+      color:rgba(255,255,255,.92);
+    }
+    .secondary a{
+      color:#fff;
+      font-weight:900;
+      text-decoration:none;
+      border-bottom:1px dashed rgba(255,255,255,.65);
+    }
+
+    @media (max-width: 900px){
+      body{ overflow:auto; }
+      .wrap{ grid-template-columns: 1fr; max-width: 560px; }
+      .brandPanel, form{ max-height:none; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+
+    <!-- Left panel -->
+    <div class="brandPanel">
+      <div class="brandTop">
+        <div class="logo"><i class="fas fa-heartbeat"></i></div>
+        <div>
+          <h1>MediBridge</h1>
+          <p><b>Healthcare</b> Skill Intelligence Platform</p>
+        </div>
+      </div>
+
+      <div class="chips">
+        <span class="chip"><i class="fas fa-bullseye"></i> Role Readiness</span>
+        <span class="chip"><i class="fas fa-chart-bar"></i> Skill Gaps</span>
+        <span class="chip"><i class="fas fa-lightbulb"></i> Roadmap</span>
+        <span class="chip"><i class="fas fa-clipboard-check"></i> Evidence</span>
+      </div>
+
+      <div class="miniInfo">
+        <b>Features</b> Login → Add skills → Select “Health Data Assistant” → Show readiness % + recommendations.
+      </div>
+    </div>
+
+    <!-- Login form -->
+    <form method="post">
+      {% csrf_token %}
+
+      <div class="title">
+        <div>
+          <h3>Welcome back</h3>
+          <div class="subtitle">Login to your healthcare dashboard.</div>
+        </div>
+        <div class="badge"><i class="fas fa-lock"></i> Secure</div>
+      </div>
+
+      {% if messages %}
+        {% for message in messages %}
+          <div class="msg">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+
+      <label for="username">Username</label>
+      <div class="input">
+        <input type="text" id="username" name="username" placeholder="Enter username" required>
+      </div>
+
+      <label for="password">Password</label>
+      <div class="input">
+        <!-- ✅ IMPORTANT: name="password" -->
+        <input type="password" id="password" name="password" class="has-toggle" placeholder="Enter password" required>
+
+        <button class="toggle" type="button" onclick="togglePass('password', this)" aria-label="Show/Hide password">
+          <i class="far fa-eye"></i>
+        </button>
+      </div>
+
+      <div class="rowActions">
+        <label class="remember">
+          <input type="checkbox" name="remember">
+          Remember me
+        </label>
+        <a href="#" onclick="return false;">Forgot password?</a>
+      </div>
+
+      <button type="submit">Log In</button>
+
+      <div class="secondary">
+        New here? <a href="{% url 'signup' %}">Create an account</a>
+      </div>
+    </form>
+
+  </div>
+
+  <script>
+    function togglePass(id, btn){
+      const el = document.getElementById(id);
+      const icon = btn.querySelector("i");
+      if(el.type === "password"){
+        el.type = "text";
+        icon.classList.remove("fa-eye");
+        icon.classList.add("fa-eye-slash");
+      }else{
+        el.type = "password";
+        icon.classList.remove("fa-eye-slash");
+        icon.classList.add("fa-eye");
+      }
+    }
+  </script>
+</body>
+</html>
