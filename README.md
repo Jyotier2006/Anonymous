@@ -1,6 +1,6 @@
 MediBridge
 
-MediBridge is a healthcare-focused learning and skill intelligence platform built for students and early-career professionals. It brings everything—skills, courses, projects, achievements, and learning progress—into one living profile and turns it into clear, actionable insights.
+MediBridge is a healthcare focused learning and skill intelligence platform built for students and early-career professionals. It brings everything skills, courses, projects, achievements, and learning progress—into one living profile and turns it into clear, actionable insights.
 
 Instead of being just another static resume or profile page, MediBridge grows with the user. It shows where a student stands today, what skills are missing for real healthcare roles, and what they should learn next.
 
