@@ -15,3 +15,4 @@ admin.site.register(UserAchievement)
 from .models import LearningTopic, TopicProgress
 admin.site.register(LearningTopic)
 admin.site.register(TopicProgress)
+
