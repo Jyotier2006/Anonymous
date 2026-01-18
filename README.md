@@ -1,31 +1,13 @@
-MediBridge
+MediBridge is a healthcare focused learning and career readiness platform built to guide students from confusion to clarity. Many learners do not know which skills matter, what to study next, or how close they are to becoming job ready. MediBridge solves this by turning everyday learning data into structured insight. It does not only store information. It analyzes it and shows a clear picture of progress.
 
-MediBridge is a healthcare focused learning and skill intelligence platform built for students and early-career professionals. It brings everything skills, courses, projects, achievements, and learning progress—into one living profile and turns it into clear, actionable insights.
+Each user builds a profile by adding skills, courses, projects, and achievements. The user selects a healthcare role such as Health Data Assistant or Clinical Data QA Associate. Based on this, the system calculates a readiness score and identifies exact skill gaps. Instead of generic advice, the user sees what is missing, how much improvement is needed, and which areas matter the most.
 
-Instead of being just another static resume or profile page, MediBridge grows with the user. It shows where a student stands today, what skills are missing for real healthcare roles, and what they should learn next.
+The Student Dashboard becomes a personal command center. It displays readiness percentage, skill gaps, next actions, a seven day roadmap, and a visual career pathway. The pathway shows whether the learner is in the Foundation, Building, or Near Ready stage. This makes growth visible and easy to understand. Students also see educator created healthcare topics and can mark them as not started, in progress, or completed.
 
-The platform has two main sides:
+MediBridge provides intelligent course recommendations without depending on paid AI APIs. The system examines missing skills and suggests relevant healthcare courses that the user has not yet added. Each recommendation explains why it is important, for example “Missing two levels in SQL.” With one click, learners can add these courses to their plan. This creates an AI like experience that works offline and remains reliable.
 
-Student Dashboard
-Students can track their skills, add courses and projects, and follow learning topics created by educators. They can mark topics as “Not Started”, “In Progress”, or “Completed” and instantly see their learning progress and readiness.
+Educators have their own dashboard where they can create healthcare learning topics. Each topic includes a title, description, difficulty, estimated time, skill tag, and resource link. Students see these topics in their dashboard and track progress, creating a complete learning ecosystem inside the platform.
 
-Educator Dashboard
-Educators can create learning topics for the healthcare domain—such as SQL for health data, privacy basics, or medical terminology—and share them with students. These topics appear directly in the student dashboard.
+Privacy is a core principle. Only learning related data is stored. If GitHub is connected, only public profile information is used. Users can disconnect it at any time. No personal or medical data is collected.
 
-MediBridge focuses on depth rather than breadth, starting with the healthcare domain, but the system is designed to scale to other sectors like agriculture and smart cities.
-
-Key Features
-
-User profiles with skills, courses, projects, and achievements
-
-Student dashboard with progress and readiness indicators
-
-Educator dashboard to create and manage learning topics
-
-Topic-based learning with status tracking
-
-Domain-focused design for healthcare careers
-
-Clean, minimal, and responsive interface
-
-This project is inspired by ideas from platforms like Open edX, Moodle, Roadmap.sh, and modern Django dashboard systems. It does not copy any single source but adapts proven concepts into a single, focused solution for healthcare skill development.
+MediBridge transforms uncertainty into direction. It replaces guesswork with clarity and turns scattered learning into a guided journey. Instead of asking what should I study, users always know their next step toward becoming job ready in healthcare.
