@@ -1,108 +1,150 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  {% load static %}
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Student Dashboard | MediBridge</title>
+  <title>MediBridge Healthcare Skill Tracker | MediBridge</title>
+
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
   <style>
+    /* ✅ YOUR CSS SAME AS BEFORE (NO CHANGE) */
     :root{
-      --bg0:#070A12; --bg1:#0A1022;
-      --card: rgba(255,255,255,.06);
-      --border: rgba(255,255,255,.12);
-      --text: rgba(255,255,255,.92);
-      --muted: rgba(255,255,255,.68);
-      --gradA:#6EE7FF; --gradB:#A78BFA;
-      --good:#34D399; --warn:#FBBF24; --bad:#FB7185;
-      --radius:18px;
-      --shadow: 0 18px 60px rgba(0,0,0,.45);
+      --side0:#0c1326;
+      --side1:#081022;
+      --sideCard:#121c33;
+      --sideText:#eaf0ff;
+      --sideMuted:#9fb2e6;
+
+      --bg:#f5f7fb;
+      --card:#ffffff;
+      --border:#e6edf5;
+      --text:#0f172a;
+      --muted:#64748b;
+
+      --blue:#38bdf8;
+      --blue2:#60a5fa;
+
+      --radius:16px;
+      --radius2:18px;
+      --shadow: 0 10px 30px rgba(15,23,42,.08);
+      --shadow2: 0 16px 50px rgba(15,23,42,.10);
     }
     *{margin:0;padding:0;box-sizing:border-box;}
     body{
       font-family:'Poppins',sans-serif;
-      color:#fff;
-      background:
-        radial-gradient(900px 560px at 12% 10%, rgba(110,231,255,.14), transparent 60%),
-        radial-gradient(820px 520px at 88% 18%, rgba(167,139,250,.14), transparent 62%),
-        radial-gradient(920px 620px at 50% 110%, rgba(52,211,153,.10), transparent 62%),
-        linear-gradient(180deg, var(--bg0), var(--bg1));
+      background: var(--bg);
+      color: var(--text);
       min-height:100vh;
-      overflow-x:hidden;
     }
     .app{
       min-height:100vh;
       display:grid;
-      grid-template-columns: 300px 1fr;
+      grid-template-columns: 320px 1fr;
     }
     @media (max-width: 980px){
       .app{ grid-template-columns: 1fr; }
     }
-
-    /* Sidebar */
     .side{
-      border-right: 1px solid rgba(255,255,255,.08);
-      background: rgba(255,255,255,.03);
-      backdrop-filter: blur(14px);
-      padding: 16px;
+      background: linear-gradient(180deg, var(--side0), var(--side1));
+      color: var(--sideText);
+      padding: 18px 16px;
     }
     @media (max-width: 980px){
-      .side{ border-right:none; border-bottom: 1px solid rgba(255,255,255,.08); }
+      .side{ position:relative; }
     }
-    .brand{
-      display:flex; gap:10px; align-items:center;
-      padding: 12px;
-      border-radius: var(--radius);
-      background: rgba(255,255,255,.04);
-      border:1px solid rgba(255,255,255,.10);
-      box-shadow: var(--shadow);
+    .brandTitle{
+      font-size:22px;
+      font-weight:900;
+      letter-spacing:.2px;
+      margin-bottom: 14px;
     }
-    .logo{
-      width:44px;height:44px;border-radius:16px;
-      display:flex;align-items:center;justify-content:center;
+    .profileCard{
       background: rgba(255,255,255,.06);
-      border:1px solid rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 18px;
+      padding: 18px;
+      text-align:center;
+      box-shadow: 0 14px 40px rgba(0,0,0,.18);
+      margin-bottom: 18px;
     }
-    .brand b{font-weight:900;font-size:14px;line-height:1.1;}
-    .brand span{display:block;font-size:11.5px;color:var(--muted);margin-top:2px;}
+    .avatar{
+      width:66px;height:66px;border-radius:50%;
+      background: rgba(255,255,255,.14);
+      display:flex;align-items:center;justify-content:center;
+      margin: 0 auto 10px;
+      font-size:28px;
+    }
+    .profileCard b{ display:block; font-size:16px; font-weight:900; }
+    .profileCard span{ display:block; font-size:12px; color: var(--sideMuted); margin-top: 2px; }
 
-    .pill{
-      margin-top: 12px;
-      padding: 10px 12px;
-      border-radius: 16px;
-      background: rgba(255,255,255,.04);
-      border:1px solid rgba(255,255,255,.10);
-      color: var(--muted);
-      font-size:12px;
-      line-height:1.4;
+    .menuTitle{
+      font-size:18px;
+      font-weight:900;
+      margin: 14px 4px 10px;
     }
-    .metrics{
+    .nav{ display:grid; gap: 8px; }
+    .nav a{
+      display:flex;
+      align-items:center;
+      gap: 12px;
+      padding: 12px 12px;
+      border-radius: 12px;
+      color: rgba(234,240,255,.90);
+      text-decoration:none;
+      font-weight: 600;
+      font-size: 14px;
+      transition: background .14s ease, transform .14s ease;
+    }
+    .nav a i{ width:18px; text-align:center; opacity:.95; }
+    .nav a:hover{ background: rgba(56,189,248,.18); transform: translateY(-1px); }
+    .nav a.active{
+      background: linear-gradient(90deg, rgba(56,189,248,.95), rgba(96,165,250,.95));
+      color: #061022;
+      font-weight: 900;
+      box-shadow: 0 12px 30px rgba(56,189,248,.22);
+    }
+    .sideInfo{
+      margin-top: 14px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 16px;
+      padding: 12px;
+      color: rgba(234,240,255,.88);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+    .sideInfo b{ color:#fff; }
+    .sideMetrics{
       margin-top: 12px;
       display:grid;
       grid-template-columns: 1fr 1fr;
-      gap:10px;
+      gap: 10px;
     }
-    .m{
+    .metric{
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 14px;
       padding: 10px;
-      border-radius: 16px;
-      background: rgba(255,255,255,.04);
-      border:1px solid rgba(255,255,255,.10);
     }
-    .m b{display:block;font-size:16px;font-weight:900;}
-    .m span{font-size:11.5px;color:var(--muted);}
-
-    .actions{ margin-top: 12px; display:grid; gap:10px; }
+    .metric b{ display:block; font-size:18px; font-weight:900; color:#fff; }
+    .metric span{ font-size:11.5px; color: var(--sideMuted); }
+    .actions{
+      margin-top: 12px;
+      display:grid;
+      gap: 10px;
+    }
     .btn{
       height:42px;
-      border-radius: 14px;
-      border:1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.04);
-      color:#fff;
-      font-weight:900;
-      font-size:12px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color: #fff;
+      font-weight: 900;
+      font-size: 12px;
       cursor:pointer;
       display:flex;align-items:center;justify-content:center;gap:8px;
       text-decoration:none;
@@ -111,330 +153,427 @@
     .btn:hover{ transform: translateY(-2px); box-shadow: 0 14px 40px rgba(0,0,0,.25); }
     .btnPrimary{
       border:none;
-      color:#071023;
-      background: linear-gradient(135deg, var(--gradA), var(--gradB));
+      color:#061022;
+      background: linear-gradient(90deg, rgba(56,189,248,.95), rgba(96,165,250,.95));
     }
+    details{
+      margin-top: 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.06);
+      padding: 10px 12px;
+    }
+    summary{ cursor:pointer; font-weight:900; font-size:12.5px; }
+    summary::-webkit-details-marker{ display:none; }
+    details p{ margin-top:8px; color: rgba(234,240,255,.80); font-size:11.5px; line-height:1.5; }
 
-    /* Main */
-    .main{ padding: 16px; }
-    .top{
-      display:flex;gap:12px;flex-wrap:wrap;align-items:flex-start;justify-content:space-between;
-      margin-bottom: 12px;
+    .main{ padding: 24px 22px; }
+    .topRow{
+      display:flex;
+      gap: 14px;
+      flex-wrap:wrap;
+      align-items: stretch;
+      justify-content: space-between;
+      margin-bottom: 14px;
     }
     .hero{
-      flex:1; min-width: 280px;
-      padding: 14px;
-      border-radius: var(--radius);
+      flex: 1;
+      min-width: 320px;
       background: var(--card);
-      border:1px solid var(--border);
-      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      border-radius: var(--radius2);
+      box-shadow: var(--shadow2);
+      padding: 18px;
     }
-    .hero h1{ font-size:18px; font-weight:900; line-height:1.2; }
-    .grad{
-      background: linear-gradient(135deg, var(--gradA), var(--gradB));
-      -webkit-background-clip:text; background-clip:text; color:transparent;
+    .hero h1{ font-size: 22px; font-weight: 900; margin-bottom: 6px; }
+    .hero p{ font-size: 13px; color: var(--muted); line-height: 1.55; margin-bottom: 14px; }
+    .meter{
+      height: 12px;
+      border-radius: 999px;
+      background: #e8eff7;
+      overflow:hidden;
+      border: 1px solid #dfe8f3;
     }
-    .hero p{ margin-top:6px; font-size:12.5px; color:var(--muted); line-height:1.5; }
-
-    .roleSelect{
-      min-width: 280px;
-      padding: 14px;
-      border-radius: var(--radius);
+    .meter .fill{
+      height:100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--blue), var(--blue2));
+      border-radius: 999px;
+      transition: width .5s ease;
+    }
+    .statRow{
+      margin-top: 14px;
+      display:grid;
+      grid-template-columns: repeat(4, minmax(0,1fr));
+      gap: 10px;
+    }
+    @media (max-width: 760px){
+      .statRow{ grid-template-columns: 1fr 1fr; }
+    }
+    .stat{
+      border: 1px solid var(--border);
+      background: #fbfdff;
+      border-radius: 14px;
+      padding: 12px;
+    }
+    .stat b{ display:block; font-size:18px; font-weight:900; }
+    .stat span{ font-size:11.5px; color: var(--muted); }
+    .roleCard{
+      width: 360px;
+      max-width: 100%;
       background: var(--card);
-      border:1px solid var(--border);
-      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      border-radius: var(--radius2);
+      box-shadow: var(--shadow2);
+      padding: 18px;
     }
     label{ font-size:12px;font-weight:900;display:block;margin-bottom:6px; }
     select,input{
       width:100%;
-      border-radius: 14px;
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.05);
-      color:#fff;
+      border-radius: 12px;
+      border: 1px solid #dbe6f2;
+      background: #f8fbff;
+      color: #0f172a;
       padding: 10px 12px;
       font-size: 13px;
       outline:none;
     }
-    .hint{ margin-top:6px; font-size:11.5px; color: var(--muted); line-height:1.4; }
-
-    .grid{
+    .hint{ margin-top:8px; font-size:12px; color: var(--muted); line-height:1.45; }
+    .content{
       display:grid;
-      grid-template-columns: 1.3fr .9fr;
-      gap:12px;
-      margin-top: 12px;
+      grid-template-columns: 1.25fr .95fr;
+      gap: 14px;
+      align-items:start;
     }
-    @media (max-width: 980px){ .grid{ grid-template-columns: 1fr; } }
-
+    @media (max-width: 980px){
+      .content{ grid-template-columns: 1fr; }
+    }
+    .stack{ display:grid; gap: 14px; }
     .card{
-      padding: 14px;
-      border-radius: var(--radius);
       background: var(--card);
-      border:1px solid var(--border);
+      border: 1px solid var(--border);
+      border-radius: var(--radius2);
       box-shadow: var(--shadow);
+      padding: 16px;
     }
     .head{
-      display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+      margin-bottom: 10px;
     }
-    .head h3{ font-size:13.5px; font-weight:900; display:flex;align-items:center;gap:10px; }
+    .head h3{
+      display:flex; align-items:center; gap:10px;
+      font-size: 15px;
+      font-weight: 900;
+    }
     .badge{
-      font-size:11.5px;padding:6px 10px;border-radius:999px;
-      border:1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.04);
-      color: var(--text);
-    }
-
-    .progress{
-      height: 12px;
+      font-size: 12px;
+      padding: 5px 10px;
       border-radius: 999px;
-      background: rgba(255,255,255,.08);
-      border:1px solid rgba(255,255,255,.10);
-      overflow:hidden;
-      margin-top: 10px;
+      border: 1px solid #dbe6f2;
+      background: #f2f7ff;
+      color: #2563eb;
+      font-weight: 800;
     }
-    .bar{
-      height:100%;
-      width:0%;
+    .list{ display:grid; gap: 10px; margin-top: 10px; }
+    .item{
+      border: 1px solid #e7eef7;
+      background: #fbfdff;
+      border-radius: 14px;
+      padding: 12px;
+      transition: transform .14s ease, box-shadow .14s ease;
+    }
+    .item:hover{ transform: translateY(-2px); box-shadow: 0 10px 24px rgba(15,23,42,.08); }
+    .itemTop{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap: 10px; }
+    .itemTop b{ font-size: 13px; font-weight: 900; }
+    .tag{
+      font-size: 11.5px;
+      padding: 5px 10px;
       border-radius: 999px;
-      background: linear-gradient(135deg, var(--good), var(--gradA));
-      transition: width .5s ease;
+      border: 1px solid #dbe6f2;
+      background: #f1f7ff;
+      color: #1d4ed8;
+      font-weight: 700;
     }
-    .statRow{ display:grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap:10px; margin-top: 12px; }
-    @media (max-width: 760px){ .statRow{ grid-template-columns: 1fr 1fr; } }
-    .stat{
-      padding: 10px;
-      border-radius: 16px;
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.04);
+    .sub{ margin-top: 6px; font-size: 12px; color: var(--muted); line-height: 1.5; }
+    .row{ display:flex; gap: 8px; flex-wrap:wrap; align-items:center; margin-top: 10px; }
+    .btn2{
+      height: 36px;
+      padding: 0 12px;
+      border-radius: 12px;
+      border: 1px solid #dbe6f2;
+      background: #f2f7ff;
+      color: #1d4ed8;
+      font-weight: 900;
+      font-size: 12px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap: 8px;
+      cursor:pointer;
+      text-decoration:none;
     }
-    .stat b{ display:block; font-size:16px; font-weight:900; }
-    .stat span{ font-size:11.5px; color: var(--muted); }
-
-    /* Tabs inside main */
-    .tabs{ display:flex; gap:8px; flex-wrap:wrap; margin-top:12px; }
+    .btn2:hover{ filter: brightness(.98); }
+    .tabs{ display:flex; gap: 8px; flex-wrap:wrap; margin-top: 12px; }
     .tabBtn{
-      height:36px;
+      height: 34px;
       padding: 0 12px;
       border-radius: 999px;
-      border:1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.04);
-      color:#fff;
-      font-weight:900;
-      font-size:12px;
+      border: 1px solid #dbe6f2;
+      background: #f8fbff;
+      color: #0f172a;
+      font-weight: 900;
+      font-size: 12px;
       cursor:pointer;
     }
     .tabBtn.active{
-      background: linear-gradient(135deg, rgba(110,231,255,.14), rgba(167,139,250,.10));
-      border-color: rgba(255,255,255,.20);
+      border-color: rgba(56,189,248,.45);
+      background: linear-gradient(90deg, rgba(56,189,248,.20), rgba(96,165,250,.16));
+      color: #0b2a45;
     }
-    .panel{ display:none; margin-top:12px; }
+    .panel{ display:none; margin-top: 12px; }
     .panel.active{ display:block; }
-
-    /* Lists */
-    .list{ display:grid; gap:10px; margin-top: 10px; }
-    .item{
-      padding: 12px;
-      border-radius: 16px;
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.04);
-      transition: transform .14s ease;
-    }
-    .item:hover{ transform: translateY(-2px); }
-    .itemTop{ display:flex; justify-content:space-between; gap:10px; align-items:center; flex-wrap:wrap; }
-    .itemTop b{ font-size:12.5px; font-weight:900; }
-    .tag{
-      font-size:11.5px;
-      padding:6px 10px;border-radius:999px;
-      background: rgba(255,255,255,.05);
-      border:1px solid rgba(255,255,255,.10);
-      color: var(--muted);
-    }
-    .sub{ margin-top:6px; font-size:11.5px; color: var(--muted); line-height:1.45; }
+    .searchRow{ display:flex; gap: 10px; flex-wrap:wrap; align-items:center; }
+    .searchRow input{ flex:1; min-width: 220px; }
     .miniBar{
       margin-top: 10px;
       height: 10px;
       border-radius: 999px;
-      background: rgba(255,255,255,.08);
-      border:1px solid rgba(255,255,255,.10);
+      background: #e8eff7;
+      border: 1px solid #dfe8f3;
       overflow:hidden;
     }
     .miniBar > div{
       height:100%;
       border-radius:999px;
-      background: linear-gradient(135deg, var(--warn), rgba(110,231,255,.35));
+      background: linear-gradient(90deg, var(--blue), var(--blue2));
       width:0%;
+      transition: width .35s ease;
     }
-
-    .searchRow{
-      display:flex; gap:10px; flex-wrap:wrap; align-items:center;
-    }
-    .searchRow input{ flex:1; min-width: 220px; }
-
-    /* Expand */
-    details{
-      border-radius: 16px;
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.04);
-      padding: 10px 12px;
-    }
-    summary{ cursor:pointer; font-weight:900; font-size:12.5px; }
-    summary::-webkit-details-marker{ display:none; }
-    details p{ margin-top:8px; color: var(--muted); font-size:11.5px; line-height:1.5; }
   </style>
 </head>
 
 <body>
-  <div class="app">
-    <!-- Sidebar -->
-    <aside class="side">
-      <div class="brand">
-        <div class="logo"><i class="fas fa-heartbeat"></i></div>
-        <div>
-          <b>MediBridge</b>
-          <span>Student Skill Dashboard</span>
-        </div>
-      </div>
+<div class="app">
 
-      <div class="pill">
-        <b style="color:#fff;">Welcome, {{ request.user.username }}</b><br>
-        Track your healthcare readiness with gaps + roadmap.
-      </div>
+  <!-- Sidebar -->
+  <aside class="side">
+    <div class="brandTitle">MediBridge Healthcare Skill Tracker</div>
 
-      <div class="metrics">
-        <div class="m"><b>{{ skills_count }}</b><span>Skills</span></div>
-        <div class="m"><b>{{ courses_count }}</b><span>Courses</span></div>
-        <div class="m"><b>{{ projects_count }}</b><span>Projects</span></div>
-        <div class="m"><b>{{ ach_count }}</b><span>Achievements</span></div>
-      </div>
+    <div class="profileCard">
+      <div class="avatar"><i class="fas fa-user"></i></div>
+      <b>{{ request.user.username }}</b>
+      <span>Healthcare Domain</span>
+    </div>
 
-      <div class="actions">
-        <a class="btn btnPrimary" href="{% url 'profile_builder' %}"><i class="fas fa-edit"></i> Update Profile</a>
-        <a class="btn" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a>
-      </div>
+    <div class="menuTitle">Menu</div>
+    <nav class="nav">
+      <a class="active" href="#"><i class="fas fa-home"></i> Dashboard</a>
+      <a href="{% url 'skills_page' %}"><i class="fas fa-brain"></i> Healthcare Skills</a>
+      <a href="{% url 'courses_page' %}"><i class="fas fa-book"></i> Healthcare Learning</a>
+      <a href="{% url 'projects_page' %}"><i class="fas fa-project-diagram"></i> Healthcare Portfolio</a>
+      <a href="{% url 'achievements_page' %}"><i class="fas fa-trophy"></i> Certifications & Milestones</a>
+      <a href="{% url 'ai_advisor' %}"><i class="fas fa-robot"></i> Career Guidance</a>
+    </nav>
 
-      <div class="pill">
-        <b style="color:#fff;">Target Role</b><br>
-        {{ target_role }}
-        <div style="margin-top:8px;color:var(--muted);font-size:11.5px;line-height:1.4;">
-          {{ role_data.summary }}
-        </div>
-      </div>
+    <div class="sideInfo">
+      <b>Target Healthcare Role:</b> {{ target_role }}<br>
+      <span style="color:rgba(234,240,255,.80)">{{ role_data.summary }}</span>
+    </div>
 
-      <details style="margin-top:12px;">
-        <summary><i class="fas fa-info-circle"></i> What judges will see</summary>
+    <div class="sideMetrics">
+      <div class="metric"><b>{{ skills_count }}</b><span>Skills</span></div>
+      <div class="metric"><b>{{ courses_count }}</b><span>Learning</span></div>
+      <div class="metric"><b>{{ projects_count }}</b><span>Portfolio</span></div>
+      <div class="metric"><b>{{ ach_count }}</b><span>Milestones</span></div>
+    </div>
+
+    <div class="actions">
+      <a class="btn btnPrimary" href="{% url 'profile_builder' %}"><i class="fas fa-edit"></i> Update Healthcare Profile</a>
+      <a class="btn" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </div>
+
+    <details>
+      <summary><i class="fas fa-info-circle"></i> What judges will see</summary>
+      <p>
+        ✅ Healthcare profile data (skills/learning/portfolio/milestones)<br>
+        ✅ Weighted skill gap analysis for target healthcare role<br>
+        ✅ Career guidance + 7-day roadmap<br>
+        ✅ Learning progress tracking (topics + status)
+      </p>
+    </details>
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+
+    <div class="topRow">
+      <section class="hero">
+        <h1>Your Healthcare Job Readiness Dashboard</h1>
         <p>
-          ✅ Profile data (skills/courses/projects/achievements)<br>
-          ✅ Skill gap analysis (weighted)<br>
-          ✅ Recommendations + 7-day roadmap<br>
-          ✅ Clear visual progress and pathways
+          Convert your healthcare profile into a readiness score, identify skill gaps, and follow suggested next learning steps.
         </p>
-      </details>
-    </aside>
 
-    <!-- Main -->
-    <main class="main">
-      <div class="top">
-        <div class="hero">
-          <h1>Your <span class="grad">Healthcare Readiness</span> Dashboard</h1>
-          <p>
-            This dashboard converts your profile into a readiness score, identifies gaps, and suggests next learning steps.
-          </p>
+        <div class="meter" aria-label="Readiness progress">
+          <div class="fill" id="readinessBar"></div>
+        </div>
 
-          <div class="progress" aria-label="Readiness progress">
-            <div class="bar" id="readinessBar"></div>
+        <div class="statRow">
+          <div class="stat">
+            <b id="readinessText">{{ readiness }}%</b>
+            <span>Healthcare Job Readiness</span>
           </div>
-
-          <div class="statRow">
-            <div class="stat">
-              <b id="readinessText">{{ readiness }}%</b>
-              <span>Readiness Score</span>
-            </div>
-            <div class="stat">
-              <b>{{ gaps|length }}</b>
-              <span>Skill Gaps</span>
-            </div>
-            <div class="stat">
-              <b>{% if readiness >= 75 %}Near-ready{% elif readiness >= 45 %}Building{% else %}Starting{% endif %}</b>
-              <span>Stage</span>
-            </div>
-            <div class="stat">
-              <b>Healthcare</b>
-              <span>Domain</span>
-            </div>
+          <div class="stat">
+            <b>{{ gaps|length }}</b>
+            <span>Skill Gaps (Healthcare)</span>
+          </div>
+          <div class="stat">
+            <b>{% if readiness >= 75 %}Near-ready{% elif readiness >= 45 %}Building{% else %}Starting{% endif %}</b>
+            <span>Stage</span>
+          </div>
+          <div class="stat">
+            <b>Healthcare</b>
+            <span>Domain</span>
           </div>
         </div>
+      </section>
 
-        <div class="roleSelect">
-          <label>Target Role (demo)</label>
-          <select id="roleSelect" disabled>
-            {% for r in roles_list %}
-              <option value="{{ r }}" {% if r == target_role %}selected{% endif %}>{{ r }}</option>
-            {% endfor %}
-          </select>
-          <div class="hint">
-            For hackathon demo, role switching can be added later (POST to update profile.target_role).
-          </div>
-          <div class="hint" style="margin-top:10px;">
-            <b style="color:#fff;">Profile Headline</b><br>
-            {{ profile.headline|default:"(Add headline in Profile Builder)" }}
-          </div>
-        </div>
-      </div>
+      <section class="roleCard">
+        <label>Target Healthcare Role (demo)</label>
+        <select id="roleSelect" disabled>
+          {% for r in roles_list %}
+            <option value="{{ r }}" {% if r == target_role %}selected{% endif %}>{{ r }}</option>
+          {% endfor %}
+        </select>
 
-      <div class="grid">
-        <!-- Left: Next Actions + Recommendations -->
-         <section class="card">
-  <div class="head">
-    <h3><i class="fas fa-book"></i> Learning Progress</h3>
-    <span class="badge">{{ learning_progress }}%</span>
-  </div>
-
-  <div class="sub">
-    Completed: {{ topics_completed }} / {{ topics_total }} • In progress: {{ topics_inprog }}
-  </div>
-
-  <div class="progress" style="margin-top:10px;">
-    <div class="bar" style="width: {{ learning_progress }}%;"></div>
-  </div>
-
-  <div class="list" style="margin-top:12px;">
-    {% for t in topics %}
-      <div class="item">
-        <div class="itemTop">
-          <b>{{ t.title }}</b>
-          <span class="tag">{{ t.difficulty|title }} • {{ t.est_minutes }} min</span>
-        </div>
-        <div class="sub">{{ t.description }}</div>
-        <div class="sub" style="margin-top:6px;">
-          Skill Tag: <b style="color:#fff">{{ t.skill_tag|default:"-" }}</b>
+        <div class="hint">
+          You can enable role switching later (save selected role into profile.target_role).
         </div>
 
-        <div class="row" style="margin-top:10px;gap:8px;">
-          {% if t.resource_link %}
-            <a class="btn2" href="{{ t.resource_link }}" target="_blank" style="text-decoration:none;">Open Resource</a>
-          {% endif %}
-
-          <form method="post" action="{% url 'update_topic_status' %}" style="display:flex;gap:8px;flex-wrap:wrap;">
-            {% csrf_token %}
-            <input type="hidden" name="topic_id" value="{{ t.id }}">
-            <select name="status" onchange="this.form.submit()">
-              <option value="not_started" {% if t.status == "not_started" %}selected{% endif %}>Not started</option>
-              <option value="in_progress" {% if t.status == "in_progress" %}selected{% endif %}>In progress</option>
-              <option value="completed" {% if t.status == "completed" %}selected{% endif %}>Completed</option>
-            </select>
-          </form>
-
-          <span class="tag">Status: {{ t.status|title }}</span>
+        <div class="hint" style="margin-top:10px;">
+          <b>Healthcare Headline</b><br>
+          {{ profile.headline|default:"(Add your healthcare headline in Profile Builder)" }}
         </div>
-      </div>
-    {% empty %}
-      <div class="pill">No topics yet. Ask an educator to add learning content.</div>
-    {% endfor %}
-  </div>
-</section>
+      </section>
+    </div>
 
+    <section class="content">
+
+      <!-- LEFT: stack -->
+      <div class="stack">
+
+        <!-- External Evidence -->
+        {% if github_data %}
         <section class="card">
           <div class="head">
-            <h3><i class="fas fa-bolt"></i> Next Actions</h3>
+            <h3><i class="fas fa-link"></i> External Proof (Optional)</h3>
+            <span class="badge">GitHub</span>
+          </div>
+
+          {% if github_data.ok %}
+            <div class="sub">
+              Connected as <b>{{ github_data.username }}</b>
+            </div>
+
+            <div class="list">
+              <div class="item">
+                <div class="itemTop">
+                  <b>Public Repositories</b>
+                  <span class="tag">{{ github_data.repo_count }}</span>
+                </div>
+                <div class="sub">Public projects can be used as portfolio proof (optional).</div>
+              </div>
+
+              {% if github_data.latest %}
+              <div class="item">
+                <div class="itemTop">
+                  <b>Latest Repo</b>
+                  <span class="tag">{{ github_data.latest.name }}</span>
+                </div>
+                <div class="sub">{{ github_data.latest.description|default:"No description" }}</div>
+              </div>
+              {% endif %}
+
+              {% if github_data.languages %}
+              <div class="item">
+                <div class="itemTop"><b>Languages Used</b></div>
+                <div class="sub">
+                  {% for l in github_data.languages %}
+                    • {{ l }}<br>
+                  {% endfor %}
+                </div>
+              </div>
+              {% endif %}
+            </div>
+
+            <div class="sub" style="margin-top:10px;">
+              For healthcare, you can also add certificate/report links inside **Portfolio** and **Milestones**.
+            </div>
+          {% else %}
+            <div class="sub">{{ github_data.error }}</div>
+          {% endif %}
+        </section>
+        {% endif %}
+
+        <!-- Learning Progress -->
+        <section class="card">
+          <div class="head">
+            <h3><i class="fas fa-book-medical"></i> Healthcare Learning Progress</h3>
+            <span class="badge">{{ learning_progress }}%</span>
+          </div>
+
+          <div class="sub">
+            Completed: {{ topics_completed }} / {{ topics_total }} • In progress: {{ topics_inprog }}
+          </div>
+
+          <div class="miniBar" style="margin-top:10px;">
+            <div style="width: {{ learning_progress }}%;"></div>
+          </div>
+
+          <div class="list" style="margin-top:12px;">
+            {% for t in topics %}
+              <div class="item">
+                <div class="itemTop">
+                  <b>{{ t.title }}</b>
+                  <span class="tag">{{ t.difficulty|title }} • {{ t.est_minutes }} min</span>
+                </div>
+
+                <div class="sub">{{ t.description }}</div>
+
+                <div class="sub" style="margin-top:6px;">
+                  Skill Tag: <b>{{ t.skill_tag|default:"-" }}</b>
+                </div>
+
+                <div class="row">
+                  {% if t.resource_link %}
+                    <a class="btn2" href="{{ t.resource_link }}" target="_blank" rel="noopener">Open Resource</a>
+                  {% endif %}
+
+                  <form method="post" action="{% url 'update_topic_status' %}" style="display:flex;gap:8px;flex-wrap:wrap;">
+                    {% csrf_token %}
+                    <input type="hidden" name="topic_id" value="{{ t.id }}">
+                    <select name="status" onchange="this.form.submit()" style="min-width:180px;">
+                      <option value="not_started" {% if t.status == "not_started" %}selected{% endif %}>Not started</option>
+                      <option value="in_progress" {% if t.status == "in_progress" %}selected{% endif %}>In progress</option>
+                      <option value="completed" {% if t.status == "completed" %}selected{% endif %}>Completed</option>
+                    </select>
+                  </form>
+
+                  <span class="tag">Status: {{ t.status|title }}</span>
+                </div>
+              </div>
+            {% empty %}
+              <div class="sub">No healthcare topics yet. Ask an educator to add learning content.</div>
+            {% endfor %}
+          </div>
+        </section>
+
+        <!-- Next Actions -->
+        <section class="card">
+          <div class="head">
+            <h3><i class="fas fa-bolt"></i> Next Actions (Healthcare)</h3>
             <span class="badge">Most important</span>
           </div>
 
@@ -447,13 +586,15 @@
                 </div>
                 <div class="sub">{{ a.desc }}</div>
               </div>
+            {% empty %}
+              <div class="sub">Add your healthcare skills to generate next actions.</div>
             {% endfor %}
           </div>
 
           <div class="tabs">
-            <button class="tabBtn active" type="button" data-tab="recs">Recommendations</button>
-            <button class="tabBtn" type="button" data-tab="road">7-Day Roadmap</button>
-            <button class="tabBtn" type="button" data-tab="path">Career Pathway</button>
+            <button class="tabBtn active" type="button" data-tab="recs">Career Guidance</button>
+            <button class="tabBtn" type="button" data-tab="road">7-Day Plan</button>
+            <button class="tabBtn" type="button" data-tab="path">Role Pathway</button>
           </div>
 
           <div class="panel active" id="panel-recs">
@@ -469,7 +610,7 @@
                   </div>
                 {% endfor %}
               {% else %}
-                <div class="pill">Add skills in Profile Builder to get recommendations.</div>
+                <div class="sub">Add skills in Profile Builder to get healthcare recommendations.</div>
               {% endif %}
             </div>
           </div>
@@ -487,106 +628,147 @@
                   </div>
                 {% endfor %}
               {% else %}
-                <div class="pill">Add at least 1 required skill to generate a roadmap.</div>
+                <div class="sub">Add at least 1 required skill to generate a 7-day plan.</div>
               {% endif %}
             </div>
           </div>
 
           <div class="panel" id="panel-path">
-            <details open>
-              <summary><i class="fas fa-route"></i> Suggested projects for {{ target_role }}</summary>
-              <p>
+            <details open style="border:1px solid var(--border); background:#fbfdff; color:var(--text);">
+              <summary><i class="fas fa-route"></i> Suggested healthcare projects for {{ target_role }}</summary>
+              <p style="color:var(--muted);">
                 {% for p in role_data.projects %}
                   • {{ p }}<br>
+                {% empty %}
+                  • (No project suggestions configured)
                 {% endfor %}
               </p>
             </details>
-            <details style="margin-top:10px;">
-              <summary><i class="fas fa-graduation-cap"></i> Suggested courses</summary>
-              <p>
+
+            <details style="margin-top:10px; border:1px solid var(--border); background:#fbfdff; color:var(--text);">
+              <summary><i class="fas fa-graduation-cap"></i> Suggested healthcare learning</summary>
+              <p style="color:var(--muted);">
                 {% for c in role_data.courses %}
                   • {{ c }}<br>
+                {% empty %}
+                  • (No course suggestions configured)
                 {% endfor %}
               </p>
             </details>
           </div>
         </section>
 
-        <!-- Right: Gap analysis -->
+        <!-- Career Pathway -->
         <section class="card">
           <div class="head">
-            <h3><i class="fas fa-search"></i> Skill Gap Analysis</h3>
-            <span class="badge">Weighted</span>
+            <h3><i class="fas fa-route"></i> Healthcare Career Pathway</h3>
+            <span class="badge">{{ stage_label }}</span>
           </div>
 
-          <div class="searchRow">
-            <input type="text" id="gapSearch" placeholder="Search gaps (e.g. SQL, Excel, Privacy)">
-            <span class="tag" id="gapCount">{{ gaps|length }} gaps</span>
-          </div>
-
-          <div class="list" id="gapsList">
-            {% if gaps %}
-              {% for g in gaps %}
-                <div class="item gapItem" data-skill="{{ g.skill|lower }}">
-                  <div class="itemTop">
-                    <b>{{ g.skill }}</b>
-                    <span class="tag">Priority {{ g.priority }}</span>
-                  </div>
-                  <div class="sub">Current: {{ g.current }}/{{ g.required }} • Missing: +{{ g.missing }} • Weight: {{ g.weight }}</div>
-                  
-                  <div class="miniBar"><div style="width: {{ g.current|add:0|floatformat:0 }}0%;"></div></div>
+          <div class="list">
+            {% for step in pathway %}
+              <div class="item" style="{% if forloop.counter0 == stage_index %}border-color: rgba(56,189,248,.6); box-shadow: 0 10px 24px rgba(56,189,248,.12);{% endif %}">
+                <div class="itemTop">
+                  <b>{{ forloop.counter }}. {{ step.title }}</b>
+                  {% if forloop.counter0 == stage_index %}
+                    <span class="tag">You are here</span>
+                  {% endif %}
                 </div>
-              {% endfor %}
-            {% else %}
-              <div class="pill">
-                No gaps found. Add skills and set levels properly in Profile Builder.
+                <div class="sub">{{ step.desc }}</div>
               </div>
-            {% endif %}
+            {% endfor %}
           </div>
         </section>
+
+        <!-- Privacy -->
+        <section class="card">
+          <div class="head">
+            <h3><i class="fas fa-shield-alt"></i> Privacy & Data (Healthcare)</h3>
+            <span class="badge">Control</span>
+          </div>
+
+          <div class="sub">
+            Stored data: Healthcare Skills, Learning, Portfolio, Milestones, and Learning Progress.<br>
+            External API (optional): GitHub public profile + repo metadata only.
+          </div>
+
+          <div class="sub" style="margin-top:10px;">
+            You can disconnect GitHub anytime by clearing GitHub username in Profile Builder.
+          </div>
+
+          <div class="row">
+            <a class="btn2" href="{% url 'profile_builder' %}">Manage Healthcare Profile</a>
+          </div>
+        </section>
+
       </div>
-    </main>
-  </div>
 
-  <script>
-    // Readiness bar
-    const readiness = {{ readiness|default:0 }};
-    const bar = document.getElementById("readinessBar");
-    bar.style.width = Math.max(0, Math.min(100, readiness)) + "%";
+      <!-- RIGHT: Gap Analysis -->
+      <section class="card">
+        <div class="head">
+          <h3><i class="fas fa-search"></i> Skill Gap Analysis (Healthcare)</h3>
+          <span class="badge">{{ gaps|length }} gaps</span>
+        </div>
 
-    // Tabs
-    const tabBtns = document.querySelectorAll(".tabBtn");
-    const panels = {
-      recs: document.getElementById("panel-recs"),
-      road: document.getElementById("panel-road"),
-      path: document.getElementById("panel-path"),
-    };
-    tabBtns.forEach(btn => {
-      btn.addEventListener("click", () => {
-        tabBtns.forEach(b => b.classList.toggle("active", b === btn));
-        const key = btn.dataset.tab;
-        Object.keys(panels).forEach(k => panels[k].classList.toggle("active", k === key));
-      });
+        <div class="searchRow">
+          <input type="text" id="gapSearch" placeholder="Search gaps (SQL, Excel, Privacy, ICD-10)">
+        </div>
+        <div class="list" id="gapsList">
+          {% if gaps %}
+            {% for g in gaps %}
+              <div class="item gapItem" data-skill="{{ g.skill|lower }}">
+                <div class="itemTop">
+                  <b>{{ g.skill }}</b>
+                  <span class="tag">Priority {{ g.priority }}</span>
+                </div>
+                <div class="sub">
+                  Current: {{ g.current }}/{{ g.required }} • Missing: +{{ g.missing }} • Weight: {{ g.weight }}
+                </div>
+                {% widthratio g.current g.required 100 as pct %}
+                <div class="miniBar"><div style="width: {{ pct }}%;"></div></div>
+              </div>
+            {% endfor %}
+          {% else %}
+            <div class="sub">
+              No gaps found. Add healthcare skills and set levels properly in your Skills page.
+            </div>
+          {% endif %}
+        </div>
+      </section>
+    </section>
+  </main>
+</div>
+<script>
+  // Readiness bar
+  const readiness = Number("{{ readiness|default:0 }}") || 0;
+  const bar = document.getElementById("readinessBar");
+  if (bar) bar.style.width = Math.max(0, Math.min(100, readiness)) + "%";
+
+  // Tabs
+  const tabBtns = document.querySelectorAll(".tabBtn");
+  const panels = {
+    recs: document.getElementById("panel-recs"),
+    road: document.getElementById("panel-road"),
+    path: document.getElementById("panel-path"),
+  };
+  tabBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+      tabBtns.forEach(b => b.classList.toggle("active", b === btn));
+      const key = btn.dataset.tab;
+      Object.keys(panels).forEach(k => panels[k]?.classList.toggle("active", k === key));
     });
+  });
 
-    // Gap search filter
-    const search = document.getElementById("gapSearch");
-    const items = Array.from(document.querySelectorAll(".gapItem"));
-    const countEl = document.getElementById("gapCount");
-
-    function updateCount(){
-      const visible = items.filter(x => x.style.display !== "none").length;
-      countEl.textContent = visible + " gaps";
-    }
-    search?.addEventListener("input", () => {
-      const q = (search.value || "").trim().toLowerCase();
-      items.forEach(it => {
-        const skill = it.getAttribute("data-skill") || "";
-        it.style.display = (q === "" || skill.includes(q)) ? "" : "none";
-      });
-      updateCount();
+  // Gap search filter
+  const search = document.getElementById("gapSearch");
+  const items = Array.from(document.querySelectorAll(".gapItem"));
+  search?.addEventListener("input", () => {
+    const q = (search.value || "").trim().toLowerCase();
+    items.forEach(it => {
+      const skill = it.getAttribute("data-skill") || "";
+      it.style.display = (q === "" || skill.includes(q)) ? "" : "none";
     });
-    updateCount();
-  </script>
+  });
+</script>
 </body>
 </html>

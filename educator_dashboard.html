@@ -1,63 +1,497 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Educator Dashboard | MediBridge</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700;900&display=swap" rel="stylesheet">
+
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
   <style>
-    body{font-family:Poppins;background:#0b1020;color:#fff;margin:0}
-    .wrap{max-width:1000px;margin:0 auto;padding:18px}
-    .card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:14px;margin-bottom:12px}
-    input,textarea,select{width:100%;padding:10px 12px;border-radius:12px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.05);color:#fff;outline:none}
-    textarea{min-height:90px}
-    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-    @media(max-width:760px){.grid2{grid-template-columns:1fr}}
-    .btn{border:none;border-radius:12px;padding:10px 12px;font-weight:900;cursor:pointer;background:linear-gradient(135deg,#6EE7FF,#A78BFA);color:#071023}
-    .muted{opacity:.75;font-size:12.5px}
+    :root{
+      --side0:#0c1326;
+      --side1:#081022;
+      --sideText:#eaf0ff;
+      --sideMuted:#9fb2e6;
+
+      --bg:#f5f7fb;
+      --card:#ffffff;
+      --border:#e6edf5;
+      --text:#0f172a;
+      --muted:#64748b;
+
+      --blue:#38bdf8;
+      --blue2:#60a5fa;
+
+      --radius:16px;
+      --radius2:18px;
+      --shadow: 0 10px 30px rgba(15,23,42,.08);
+      --shadow2: 0 16px 50px rgba(15,23,42,.10);
+    }
+
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{
+      font-family:'Poppins',sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height:100vh;
+    }
+
+    .app{
+      min-height:100vh;
+      display:grid;
+      grid-template-columns: 320px 1fr;
+    }
+    @media (max-width: 980px){
+      .app{ grid-template-columns: 1fr; }
+    }
+
+    /* Sidebar */
+    .side{
+      background: linear-gradient(180deg, var(--side0), var(--side1));
+      color: var(--sideText);
+      padding: 18px 16px;
+    }
+
+    .brandTitle{
+      font-size:22px;
+      font-weight:900;
+      letter-spacing:.2px;
+      margin-bottom: 14px;
+    }
+
+    .profileCard{
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 18px;
+      padding: 18px;
+      text-align:center;
+      box-shadow: 0 14px 40px rgba(0,0,0,.18);
+      margin-bottom: 18px;
+    }
+    .avatar{
+      width:66px;height:66px;border-radius:50%;
+      background: rgba(255,255,255,.14);
+      display:flex;align-items:center;justify-content:center;
+      margin: 0 auto 10px;
+      font-size:28px;
+    }
+    .profileCard b{ display:block; font-size:16px; font-weight:900; }
+    .profileCard span{ display:block; font-size:12px; color: var(--sideMuted); margin-top: 2px; }
+
+    .menuTitle{
+      font-size:18px;
+      font-weight:900;
+      margin: 14px 4px 10px;
+    }
+
+    .nav{
+      display:grid;
+      gap: 8px;
+    }
+    .nav a{
+      display:flex;
+      align-items:center;
+      gap: 12px;
+      padding: 12px 12px;
+      border-radius: 12px;
+      color: rgba(234,240,255,.90);
+      text-decoration:none;
+      font-weight: 600;
+      font-size: 14px;
+      transition: background .14s ease, transform .14s ease;
+    }
+    .nav a i{ width:18px; text-align:center; opacity:.95; }
+    .nav a:hover{ background: rgba(56,189,248,.18); transform: translateY(-1px); }
+    .nav a.active{
+      background: linear-gradient(90deg, rgba(56,189,248,.95), rgba(96,165,250,.95));
+      color: #061022;
+      font-weight: 900;
+      box-shadow: 0 12px 30px rgba(56,189,248,.22);
+    }
+
+    .sideInfo{
+      margin-top: 14px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 16px;
+      padding: 12px;
+      color: rgba(234,240,255,.88);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+    .sideInfo b{ color:#fff; }
+
+    .actions{
+      margin-top: 12px;
+      display:grid;
+      gap: 10px;
+    }
+    .btnSide{
+      height:42px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color: #fff;
+      font-weight: 900;
+      font-size: 12px;
+      cursor:pointer;
+      display:flex;align-items:center;justify-content:center;gap:8px;
+      text-decoration:none;
+      transition: transform .14s ease, box-shadow .14s ease, background .14s ease;
+    }
+    .btnSide:hover{ transform: translateY(-2px); box-shadow: 0 14px 40px rgba(0,0,0,.25); }
+    .btnSidePrimary{
+      border:none;
+      color:#061022;
+      background: linear-gradient(90deg, rgba(56,189,248,.95), rgba(96,165,250,.95));
+    }
+
+    /* Main */
+    .main{ padding: 24px 22px; }
+
+    .topRow{
+      display:flex;
+      gap: 14px;
+      flex-wrap:wrap;
+      align-items: stretch;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .hero{
+      flex: 1;
+      min-width: 320px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius2);
+      box-shadow: var(--shadow2);
+      padding: 18px;
+    }
+    .hero h1{ font-size: 22px; font-weight: 900; margin-bottom: 6px; }
+    .hero p{ font-size: 13px; color: var(--muted); line-height: 1.55; }
+
+    .quick{
+      width: 360px;
+      max-width: 100%;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius2);
+      box-shadow: var(--shadow2);
+      padding: 18px;
+    }
+
+    .content{
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 14px;
+      align-items:start;
+    }
+    @media (max-width: 980px){
+      .content{ grid-template-columns: 1fr; }
+    }
+
+    .card{
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius2);
+      box-shadow: var(--shadow);
+      padding: 16px;
+    }
+
+    .head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .head h3{
+      display:flex; align-items:center; gap:10px;
+      font-size: 15px;
+      font-weight: 900;
+    }
+    .badge{
+      font-size: 12px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      border: 1px solid #dbe6f2;
+      background: #f2f7ff;
+      color: #2563eb;
+      font-weight: 800;
+    }
+
+    label{ font-size:12px;font-weight:900;display:block;margin-bottom:6px; }
+    input, textarea, select{
+      width:100%;
+      border-radius: 12px;
+      border: 1px solid #dbe6f2;
+      background: #f8fbff;
+      color: #0f172a;
+      padding: 10px 12px;
+      font-size: 13px;
+      outline:none;
+    }
+    textarea{ min-height: 100px; resize: vertical; }
+
+    .sub{
+      margin-top: 6px;
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .grid2{ display:grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    @media (max-width: 760px){ .grid2{ grid-template-columns:1fr; } }
+
+    .row{ display:flex; gap: 8px; flex-wrap:wrap; align-items:center; margin-top: 10px; }
+
+    .btn{
+      height: 38px;
+      padding: 0 14px;
+      border-radius: 12px;
+      border: 1px solid #dbe6f2;
+      background: #f2f7ff;
+      color: #1d4ed8;
+      font-weight: 900;
+      font-size: 12px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap: 8px;
+      cursor:pointer;
+      text-decoration:none;
+    }
+    .btnPrimary{
+      border:none;
+      color:#061022;
+      background: linear-gradient(90deg, rgba(56,189,248,.95), rgba(96,165,250,.95));
+      box-shadow: 0 12px 30px rgba(56,189,248,.18);
+    }
+
+    .table{ display:grid; gap: 10px; margin-top: 10px; }
+    .item{
+      border: 1px solid #e7eef7;
+      background: #fbfdff;
+      border-radius: 14px;
+      padding: 12px;
+      display:grid;
+      gap: 8px;
+      transition: transform .14s ease, box-shadow .14s ease;
+    }
+    .item:hover{ transform: translateY(-2px); box-shadow: 0 10px 24px rgba(15,23,42,.08); }
+
+    .tagRow{
+      display:flex; gap:8px; flex-wrap:wrap; align-items:center;
+      color: var(--muted); font-size: 12px;
+    }
+    .pill{
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: #eef6ff;
+      border: 1px solid #dbeafe;
+      color: #1d4ed8;
+      font-weight: 800;
+    }
   </style>
 </head>
+
 <body>
-  <div class="wrap">
-    <div class="card">
-      <h2 style="margin:0">Educator Dashboard</h2>
-      <p class="muted">Create healthcare learning topics for students. Students can mark progress in their dashboard.</p>
+<div class="app">
+
+  <!-- Sidebar -->
+  <aside class="side">
+    <div class="brandTitle">Holistic Skill Intelligence System</div>
+
+    <div class="profileCard">
+      <div class="avatar"><i class="fas fa-user-shield"></i></div>
+      <b>{{ request.user.username }}</b>
+      <span>Educator • Healthcare Domain</span>
     </div>
 
-    <div class="card">
-      <h3 style="margin-top:0">Create a Topic</h3>
-      <form method="post">
+    <div class="menuTitle">Menu</div>
+    <nav class="nav">
+      <a href="{% url 'student_dashboard' %}"><i class="fas fa-home"></i> Student Dashboard</a>
+      <a class="active" href="{% url 'educator_dashboard' %}"><i class="fas fa-chalkboard-teacher"></i> Educator Dashboard</a>
+      <a href="{% url 'profile_builder' %}"><i class="fas fa-edit"></i> Profile Builder</a>
+      {% comment %}
+      If you added advisor page:
+      <a href="{% url 'ai_advisor' %}"><i class="fas fa-robot"></i> AI Advisor</a>
+      {% endcomment %}
+    </nav>
+
+    <div class="sideInfo">
+      <b>Tip:</b> Create beginner → intermediate → advanced topics.<br>
+      <span style="color:rgba(234,240,255,.80)">Students will see these in their dashboard and track progress.</span>
+    </div>
+
+    <div class="actions">
+      <a class="btnSide btnSidePrimary" href="{% url 'student_dashboard' %}">
+        <i class="fas fa-arrow-left"></i> Back to Student Dashboard
+      </a>
+      <a class="btnSide" href="{% url 'logout' %}">
+        <i class="fas fa-sign-out-alt"></i> Logout
+      </a>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+
+    <div class="topRow">
+      <section class="hero">
+        <h1>Educator Dashboard</h1>
+        <p>Create healthcare learning topics (SQL, Excel, Privacy, Terminology, etc.). Students can track progress inside their Student Dashboard.</p>
+      </section>
+
+      <section class="quick">
+        <div class="head">
+          <h3><i class="fas fa-bolt"></i> Quick Actions</h3>
+          <span class="badge">Educator</span>
+        </div>
+        <div class="sub">Keep topics short & outcome-based. Example: “Write SELECT queries for patient admissions table”.</div>
+        <div class="row">
+          <button class="btn" type="button" onclick="document.getElementById('createTopicCard').scrollIntoView({behavior:'smooth'})">
+            <i class="fas fa-plus"></i> Create Topic
+          </button>
+          <button class="btn" type="button" onclick="document.getElementById('topicsCard').scrollIntoView({behavior:'smooth'})">
+            <i class="fas fa-list"></i> View Topics
+          </button>
+        </div>
+      </section>
+    </div>
+
+    <section class="content">
+
+      <!-- Create -->
+      <section class="card" id="createTopicCard">
+        <div class="head">
+          <h3><i class="fas fa-plus-circle"></i> Create a Topic</h3>
+          <span class="badge">Healthcare</span>
+        </div>
+
+        <form method="post">
+          {% csrf_token %}
+
+          <div class="grid2">
+            <div>
+              <label>Topic Title</label>
+              <input name="title" placeholder="e.g. S for Healthcare Data" required>
+              <div class="sub">Make it specific and outcome-driven.</div>
+            </div>
+            <div>
+              <label>Difficulty</label>
+              <select name="difficulty">
+                <option value="beginner">Beginner</option>
+                <option value="intermediate">Intermediate</option>
+                <option value="advanced">Advanced</option>
+              </select>
+              <div class="sub">Choose based on student maturity level.</div>
+            </div>
+          </div>
+
+          <div class="grid2" style="margin-top:10px;">
+            <div>
+              <label>Skill Tag</label>
+              <input name="skill_tag" placeholder="SQL / Excel / Privacy / Terminology">
+              <div class="sub">Helps students filter & understand relevance.</div>
+            </div>
+            <div>
+              <label>Estimated Minutes</label>
+              <input name="est_minutes" type="number" min="5" value="30" placeholder="30">
+              <div class="sub">Suggested: 20–60 minutes.</div>
+            </div>
+          </div>
+
+          <div style="margin-top:10px;">
+            <label>Description</label>
+            <textarea name="description" placeholder="What will student learn? What output they should create?"></textarea>
+            <div class="sub">Example: “Write 5 queries on hospital admissions table and export report.”</div>
+          </div>
+
+          <div style="margin-top:10px;">
+            <label>Resource Link (optional)</label>
+            <input name="resource_link" placeholder="YouTube / Coursera / PDF link">
+            <div class="sub">If you don’t have link, leave it blank.</div>
+          </div>
+
+          <div class="row" style="margin-top:12px;">
+            <button class="btn btnPrimary" type="submit">
+              <i class="fas fa-check"></i> Create Topic
+            </button>
+            <button class="btn" type="reset">
+              <i class="fas fa-undo"></i> Clear
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Topics -->
+       <div class="card">
+  <h3 style="margin-top:0">Healthcare Topic Library (1-click)</h3>
+
+  {% for t in library %}
+    <div style="padding:10px;border:1px solid rgba(255,255,255,.10);border-radius:14px;margin-bottom:10px;background:rgba(255,255,255,.04)">
+      <b>{{ t.title }}</b>
+      <div class="muted">{{ t.difficulty }} • {{ t.est_minutes }} min • Skill: {{ t.skill_tag }}</div>
+      <div class="muted" style="margin-top:6px">{{ t.description }}</div>
+
+      <form method="post" style="margin-top:8px;">
         {% csrf_token %}
-        <div class="grid2">
-          <input name="title" placeholder="Topic title (e.g. SQL Basics for Healthcare Data)" required>
-          <select name="difficulty">
-            <option value="beginner">Beginner</option>
-            <option value="intermediate">Intermediate</option>
-            <option value="advanced">Advanced</option>
-          </select>
-        </div>
-        <div class="grid2" style="margin-top:10px;">
-          <input name="skill_tag" placeholder="Skill tag (SQL, Excel, Privacy, Terminology)">
-          <input name="est_minutes" type="number" min="5" value="30" placeholder="Estimated minutes">
-        </div>
-        <textarea name="description" placeholder="What student will learn + outcome" style="margin-top:10px;"></textarea>
-        <input name="resource_link" placeholder="Resource link (YouTube/Coursera/etc.) optional" style="margin-top:10px;">
-        <button class="btn" type="submit" style="margin-top:10px;">Create Topic</button>
+        <input type="hidden" name="use_library" value="1">
+        <input type="hidden" name="lib_index" value="{{ forloop.counter0 }}">
+        <button class="btn" type="submit">Add this topic</button>
       </form>
     </div>
+  {% endfor %}
+</div>
 
-    <div class="card">
-      <h3 style="margin-top:0">All Topics</h3>
-      {% for t in topics %}
-        <div style="padding:10px;border:1px solid rgba(255,255,255,.10);border-radius:14px;margin-bottom:10px;background:rgba(255,255,255,.04)">
-          <b>{{ t.title }}</b>
-          <div class="muted">{{ t.difficulty }} • {{ t.est_minutes }} min • Skill: {{ t.skill_tag }}</div>
-          <div class="muted" style="margin-top:6px">{{ t.description }}</div>
+      <section class="card" id="topicsCard">
+        <div class="head">
+          <h3><i class="fas fa-list-alt"></i> All Topics</h3>
+          <span class="badge">{{ topics|length }} Topics</span>
         </div>
-      {% empty %}
-        <div class="muted">No topics created yet.</div>
-      {% endfor %}
-    </div>
-  </div>
+        <div class="sub">These topics will show in the Student Dashboard under Healthcare learning topics.</div>
+
+        <div class="table">
+          {% for t in topics %}
+            <div class="item">
+              <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:flex-start;">
+                <div>
+                  <div style="font-weight:900;">{{ t.title }}</div>
+                  <div class="tagRow" style="margin-top:6px;">
+                    <span class="pill">{{ t.difficulty }}</span>
+                    <span class="pill">{{ t.est_minutes }} min</span>
+                    {% if t.skill_tag %}<span class="pill">{{ t.skill_tag }}</span>{% endif %}
+                  </div>
+                </div>
+
+                {% if t.resource_link %}
+                  <a class="btn" href="{{ t.resource_link }}" target="_blank" rel="noopener">
+                    <i class="fas fa-external-link-alt"></i> Resource
+                  </a>
+                {% endif %}
+              </div>
+
+              {% if t.description %}
+                <div class="sub">{{ t.description }}</div>
+              {% endif %}
+            </div>
+          {% empty %}
+            <div class="item">
+              <div style="font-weight:900;">No topics created yet.</div>
+              <div class="sub">Use “Create a Topic” to add your first healthcare learning topic.</div>
+            </div>
+          {% endfor %}
+        </div>
+      </section>
+
+    </section>
+  </main>
+</div>
 </body>
 </html>

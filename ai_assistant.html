@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI Assistant | SkillSphere</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    body{margin:0;font-family:Poppins,sans-serif;background:#0b1220;color:#fff;min-height:100vh;display:flex;justify-content:center;padding:18px}
+    .wrap{width:min(980px,100%);display:grid;gap:14px}
+    .card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:14px}
+    textarea{width:100%;min-height:160px;border-radius:14px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);color:#fff;padding:12px;font-size:13px;outline:none}
+    button{height:44px;border:none;border-radius:14px;font-weight:900;cursor:pointer;background:linear-gradient(135deg,#6EE7FF,#A78BFA);color:#081225;padding:0 14px}
+    .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    .err{background:rgba(251,113,133,.15);border:1px solid rgba(251,113,133,.35);padding:10px;border-radius:14px}
+    .pill{display:inline-block;margin:6px 8px 0 0;padding:6px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);font-size:12px}
+    ul{margin:8px 0 0 18px;color:rgba(255,255,255,.85)}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h2 style="margin:0 0 6px;font-weight:900;">AI Skill Extractor (Healthcare)</h2>
+      <p style="margin:0;color:rgba(255,255,255,.7);font-size:13px;line-height:1.5;">
+        Paste your project/internship description. AI will extract skills + generate a 7-day & 30-day roadmap.
+      </p>
+    </div>
+
+    <form class="card" method="post">
+      {% csrf_token %}
+      <label style="font-weight:900;font-size:12px;">Project / Internship description</label>
+      <textarea name="project_text" placeholder="Example: Built a hospital KPI dashboard using Excel + SQL, improved data quality checks, followed privacy guidelines..."></textarea>
+      <div class="row" style="margin-top:10px;">
+        <button type="submit">Generate Insights</button>
+        <span style="color:rgba(255,255,255,.65);font-size:12px;">Tip: mention tools (Excel/SQL), dataset, dashboards, privacy, QA.</span>
+      </div>
+
+      {% if error %}
+        <div class="err" style="margin-top:10px;">{{ error }}</div>
+      {% endif %}
+    </form>
+
+    {% if result %}
+      <div class="card">
+        <h3 style="margin:0 0 8px;font-weight:900;">Suggested Role: {{ result.suggested_role }}</h3>
+
+        <div>
+          <b>Extracted Skills</b><br/>
+          {% for s in result.extracted_skills %}
+            <span class="pill">{{ s.skill }} ({{ s.confidence }}%)</span>
+          {% endfor %}
+        </div>
+
+        <div style="margin-top:12px;">
+          <b>Gaps / What to improve</b>
+          <ul>
+            {% for g in result.gaps %}
+              <li><b>{{ g.skill }}</b> — {{ g.why_important }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+
+        <div style="margin-top:12px;">
+          <b>7-Day Roadmap</b>
+          <ul>
+            {% for d in result.roadmap_7_days %}
+              <li>Day {{ d.day }}: {{ d.task }} ({{ d.estimated_minutes }} min)</li>
+            {% endfor %}
+          </ul>
+        </div>
+
+        <div style="margin-top:12px;">
+          <b>30-Day Plan</b>
+          <ul>
+            {% for w in result.roadmap_30_days %}
+              <li>Week {{ w.week }}: {{ w.focus }} — Deliverable: {{ w.deliverable }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+</body>
+</html>

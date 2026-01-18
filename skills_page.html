@@ -1,0 +1,293 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Skills | MediBridge</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    /* Use SAME CSS variables + styles you already use */
+    :root{
+      --side0:#0c1326;
+      --side1:#081022;
+      --sideCard:#121c33;
+      --sideText:#eaf0ff;
+      --sideMuted:#9fb2e6;
+
+      --bg:#f5f7fb;
+      --card:#ffffff;
+      --border:#e6edf5;
+      --text:#0f172a;
+      --muted:#64748b;
+
+      --blue:#38bdf8;
+      --blue2:#60a5fa;
+
+      --radius:16px;
+      --radius2:18px;
+      --shadow: 0 10px 30px rgba(15,23,42,.08);
+      --shadow2: 0 16px 50px rgba(15,23,42,.10);
+    }
+
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+    .app{min-height:100vh;display:grid;grid-template-columns:320px 1fr;}
+    @media(max-width:980px){.app{grid-template-columns:1fr}}
+
+    .side{background:linear-gradient(180deg,var(--side0),var(--side1));color:var(--sideText);padding:18px 16px;}
+    .brandTitle{font-size:20px;font-weight:900;margin-bottom:14px}
+    .profileCard{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.10);border-radius:18px;padding:18px;text-align:center;box-shadow:0 14px 40px rgba(0,0,0,.18);margin-bottom:18px;}
+    .avatar{width:66px;height:66px;border-radius:50%;background:rgba(255,255,255,.14);display:flex;align-items:center;justify-content:center;margin:0 auto 10px;font-size:28px;}
+    .profileCard b{display:block;font-size:16px;font-weight:900}
+    .profileCard span{display:block;font-size:12px;color:var(--sideMuted);margin-top:2px}
+
+    .nav{display:grid;gap:8px;margin-top:10px}
+    .nav a{display:flex;align-items:center;gap:12px;padding:12px;border-radius:12px;color:rgba(234,240,255,.90);text-decoration:none;font-weight:600;font-size:14px}
+    .nav a:hover{background:rgba(56,189,248,.18)}
+    .nav a.active{background:linear-gradient(90deg,rgba(56,189,248,.95),rgba(96,165,250,.95));color:#061022;font-weight:900}
+
+    .btnSide{margin-top:12px;display:flex;gap:10px;flex-wrap:wrap}
+    .btn2{
+      height:36px;padding:0 12px;border-radius:12px;
+      border:1px solid #dbe6f2;background:#f2f7ff;color:#1d4ed8;
+      font-weight:900;font-size:12px;display:inline-flex;align-items:center;gap:8px;
+      text-decoration:none;cursor:pointer
+    }
+
+    .main{padding:24px 22px}
+    .topRow{display:flex;gap:14px;flex-wrap:wrap;justify-content:space-between;margin-bottom:14px}
+    .hero{flex:1;min-width:320px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius2);box-shadow:var(--shadow2);padding:18px}
+    .hero h1{font-size:22px;font-weight:900;margin-bottom:6px}
+    .hero p{font-size:13px;color:var(--muted);line-height:1.55}
+
+    .card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius2);box-shadow:var(--shadow);padding:16px}
+    .head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+    .head h3{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:900}
+    .badge{font-size:12px;padding:5px 10px;border-radius:999px;border:1px solid #dbe6f2;background:#f2f7ff;color:#2563eb;font-weight:800}
+
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    @media(max-width:760px){.grid2{grid-template-columns:1fr}}
+
+    label{font-size:12px;font-weight:900;display:block;margin-bottom:6px}
+    input,select{width:100%;border-radius:12px;border:1px solid #dbe6f2;background:#f8fbff;color:#0f172a;padding:10px 12px;font-size:13px;outline:none}
+    .sub{margin-top:6px;font-size:12px;color:var(--muted);line-height:1.5}
+
+    .table{display:grid;gap:10px;margin-top:10px}
+    .item{border:1px solid #e7eef7;background:#fbfdff;border-radius:14px;padding:12px;display:grid;gap:10px}
+
+    .pill{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;font-size:12px;font-weight:800;border:1px solid #dbe6f2;background:#f2f7ff;color:#1d4ed8}
+    .danger{background:#fff5f5;border-color:#ffd6d6;color:#b91c1c}
+    .ok{background:#ecfeff;border-color:#bae6fd;color:#0c4a6e}
+
+    .bar{
+      height:10px;border-radius:999px;background:#eef2ff;border:1px solid #dbe6f2;overflow:hidden
+    }
+    .bar > div{
+      height:100%;
+      background:linear-gradient(90deg,rgba(56,189,248,.95),rgba(96,165,250,.95));
+      width:0%;
+    }
+
+    .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+    .btnPrimary{
+      height:36px;padding:0 12px;border-radius:12px;border:none;
+      background:linear-gradient(90deg,rgba(56,189,248,.95),rgba(96,165,250,.95));
+      color:#061022;font-weight:900;font-size:12px;cursor:pointer
+    }
+  </style>
+</head>
+
+<body>
+<div class="app">
+
+  <!-- Sidebar -->
+  <aside class="side">
+    <div class="brandTitle">Holistic Skill Intelligence</div>
+
+    <div class="profileCard">
+      <div class="avatar"><i class="fas fa-user"></i></div>
+      <b>{{ request.user.username }}</b>
+      <span>Healthcare Domain</span>
+    </div>
+
+    <nav class="nav">
+      <a href="{% url 'student_dashboard' %}"><i class="fas fa-home"></i> Dashboard</a>
+      <a class="active" href="{% url 'skills_page' %}"><i class="fas fa-brain"></i> Skills</a>
+      <a href="{% url 'profile_builder' %}"><i class="fas fa-edit"></i> Profile Builder</a>
+    </nav>
+
+    <div class="btnSide">
+      <a class="btn2" href="{% url 'student_dashboard' %}"><i class="fas fa-arrow-left"></i> Back</a>
+      <a class="btn2" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+
+    <div class="topRow">
+      <section class="hero">
+        <h1>Skills</h1>
+        <p>Track your skill levels (1–5), compare with your target healthcare role, and close gaps with focused practice.</p>
+
+        <div style="margin-top:12px" class="row">
+          <span class="pill ok"><i class="fas fa-bullseye"></i> Target: {{ target_role }}</span>
+          <span class="pill"><i class="fas fa-chart-line"></i> Readiness: {{ readiness }}%</span>
+        </div>
+
+        <div style="margin-top:10px" class="bar">
+          <div style="width: {{ readiness }}%"></div>
+        </div>
+      </section>
+
+      <section class="card" style="width:360px;max-width:100%">
+        <div class="head">
+          <h3><i class="fas fa-search"></i> Search & Filter</h3>
+          <span class="badge">Smart</span>
+        </div>
+
+        <form method="get" class="grid2">
+          <div>
+            <label>Search</label>
+            <input name="name" placeholder="e.g. ICD-10 Coding / SQL / Excel / EHR Basics">
+          </div>
+          <div>
+            <label>Min Level</label>
+            <select name="min_level">
+              <option value="">Any</option>
+              <option value="1" {% if min_level == "1" %}selected{% endif %}>1+</option>
+              <option value="2" {% if min_level == "2" %}selected{% endif %}>2+</option>
+              <option value="3" {% if min_level == "3" %}selected{% endif %}>3+</option>
+              <option value="4" {% if min_level == "4" %}selected{% endif %}>4+</option>
+              <option value="5" {% if min_level == "5" %}selected{% endif %}>5</option>
+            </select>
+          </div>
+          <button class="btnPrimary" type="submit" style="grid-column:1/-1">Apply</button>
+        </form>
+      </section>
+    </div>
+
+    <!-- Add / Update skill -->
+    <section class="card">
+      <div class="head">
+        <h3><i class="fas fa-plus-circle"></i> Add / Update a Skill</h3>
+        <span class="badge">Quick</span>
+      </div>
+
+      <form method="post" class="grid2">
+        {% csrf_token %}
+        <div>
+          <label>Skill Name</label>
+          <input name="name" placeholder="e.g. SQL">
+          <div class="sub">If skill already exists, it will update the level.</div>
+        </div>
+        <div>
+          <label>Level (1–5)</label>
+          <select name="level">
+            <option value="1">Level 1 (Basics)</option>
+            <option value="2">Level 2 (Comfortable)</option>
+            <option value="3">Level 3 (Working)</option>
+            <option value="4">Level 4 (Strong)</option>
+            <option value="5">Level 5 (Expert)</option>
+          </select>
+        </div>
+        <button class="btnPrimary" type="submit" style="grid-column:1/-1">Save Skill</button>
+      </form>
+
+      {% if suggested %}
+        <div style="margin-top:12px">
+          <div class="sub"><b>Suggested healthcare skills:</b> add in 1 click</div>
+          <div class="row" style="margin-top:8px">
+            {% for s in suggested %}
+              <form method="post" style="display:inline">
+                {% csrf_token %}
+                <input type="hidden" name="name" value="{{ s }}">
+                <input type="hidden" name="level" value="1">
+                <button class="btn2" type="submit"><i class="fas fa-plus"></i> {{ s }}</button>
+              </form>
+            {% endfor %}
+          </div>
+        </div>
+      {% endif %}
+    </section>
+
+    <!-- Your skills list -->
+    <section class="card" style="margin-top:14px">
+      <div class="head">
+        <h3><i class="fas fa-list"></i> Your Skills</h3>
+        <span class="badge">{{ skills|length }}</span>
+      </div>
+
+      <div class="table">
+        {% for s in skills %}
+          <div class="item">
+            <div class="row" style="justify-content:space-between">
+              <b>{{ s.name }}</b>
+              <span class="pill">Level {{ s.level }}</span>
+            </div>
+
+            <div class="bar">
+              <div style="width: {{ s.level|add:'0'|floatformat:0 }}0%"></div>
+            </div>
+
+            <div class="row">
+              <form method="post" style="display:flex;gap:8px;align-items:center">
+                {% csrf_token %}
+                <input type="hidden" name="name" value="{{ s.name }}">
+                <select name="level" style="width:160px">
+                  <option value="1" {% if s.level == 1 %}selected{% endif %}>Level 1</option>
+                  <option value="2" {% if s.level == 2 %}selected{% endif %}>Level 2</option>
+                  <option value="3" {% if s.level == 3 %}selected{% endif %}>Level 3</option>
+                  <option value="4" {% if s.level == 4 %}selected{% endif %}>Level 4</option>
+                  <option value="5" {% if s.level == 5 %}selected{% endif %}>Level 5</option>
+                </select>
+                <button class="btn2" type="submit"><i class="fas fa-sync"></i> Update</button>
+              </form>
+
+              <form method="post" action="{% url 'delete_skill' s.id %}">
+                {% csrf_token %}
+                <button class="btn2 danger" type="submit"><i class="fas fa-trash"></i> Delete</button>
+              </form>
+            </div>
+
+            <div class="sub">Last updated: {{ s.updated_at|date:"d M Y, H:i" }}</div>
+          </div>
+        {% empty %}
+          <div class="sub">No skills added yet. Add your first skill above.</div>
+        {% endfor %}
+      </div>
+    </section>
+
+    <!-- Role gap analysis -->
+    <section class="card" style="margin-top:14px">
+      <div class="head">
+        <h3><i class="fas fa-exclamation-triangle"></i> Role Gap Analysis</h3>
+        <span class="badge">Healthcare Role</span>
+      </div>
+      <div class="sub">These are the expected skills for <b>{{ target_role }}</b>. Focus on the highest “missing” first.</div>
+
+      <div class="table">
+        {% for g in gap_rows %}
+          <div class="item">
+            <div class="row" style="justify-content:space-between">
+              <b>{{ g.name }}</b>
+              {% if g.missing > 0 %}
+                <span class="pill danger">Missing {{ g.missing }}</span>
+              {% else %}
+                <span class="pill ok">Met</span>
+              {% endif %}
+            </div>
+            <div class="sub">Required: Level {{ g.required }} • Your level: {{ g.current }} • Weight: {{ g.weight }}</div>
+          </div>
+        {% endfor %}
+      </div>
+    </section>
+
+  </main>
+</div>
+</body>
+</html>

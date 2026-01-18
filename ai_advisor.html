@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>AI Advisor | MediBridge</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    body{font-family:Poppins;background:#f5f7fb;margin:0;color:#0f172a}
+    .wrap{max-width:900px;margin:0 auto;padding:20px}
+    .card{background:#fff;border:1px solid #e6edf5;border-radius:18px;box-shadow:0 10px 30px rgba(15,23,42,.08);padding:16px}
+    .top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+    .title{font-weight:900;font-size:20px}
+    .muted{color:#64748b;font-size:13px;line-height:1.5}
+    .chat{margin-top:14px;display:grid;gap:10px}
+    .bubble{padding:12px 14px;border-radius:16px;border:1px solid #e6edf5;background:#fbfdff;white-space:pre-line}
+    .me{background:#f2f7ff;border-color:#dbe6f2}
+    .row{display:flex;gap:10px;margin-top:12px}
+    input{flex:1;border-radius:14px;border:1px solid #dbe6f2;background:#f8fbff;padding:12px}
+    button{border:none;border-radius:14px;padding:12px 14px;font-weight:900;cursor:pointer;color:#061022;
+      background:linear-gradient(90deg, rgba(56,189,248,.95), rgba(96,165,250,.95));}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <div class="card">
+    <div class="top">
+      <div>
+        <div class="title">AI Skill Advisor (Healthcare)</div>
+        <div class="muted">Ask about readiness, gaps, courses, or projects. Recommendations are personalized from your profile.</div>
+      </div>
+      <a href="{% url 'student_dashboard' %}" style="text-decoration:none;font-weight:900;color:#1d4ed8">← Back to Dashboard</a>
+    </div>
+
+    <div id="chat" class="chat">
+      <div class="bubble">Hello! Type: <b>readiness</b>, <b>gaps</b>, <b>courses</b>, <b>projects</b>.</div>
+    </div>
+
+    <div class="row">
+      <input id="msg" placeholder="Type your question... (example: gaps)">
+      <button onclick="sendMsg()">Send</button>
+    </div>
+  </div>
+</div>
+
+<script>
+async function sendMsg(){
+  const inp = document.getElementById("msg");
+  const text = (inp.value || "").trim();
+  if(!text) return;
+
+  const chat = document.getElementById("chat");
+  chat.insertAdjacentHTML("beforeend", `<div class="bubble me"><b>You:</b> ${text}</div>`);
+  inp.value = "";
+
+  const form = new FormData();
+  form.append("message", text);
+
+  const res = await fetch("{% url 'ai_advisor_chat' %}", {
+    method: "POST",
+    body: form,
+    headers: {"X-CSRFToken": "{{ csrf_token }}"}
+  });
+
+  const data = await res.json();
+  chat.insertAdjacentHTML("beforeend", `<div class="bubble"><b>Advisor:</b>\n${data.reply}</div>`);
+  chat.scrollTop = chat.scrollHeight;
+}
+</script>
+</body>
+</html>

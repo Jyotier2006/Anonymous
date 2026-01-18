@@ -1,302 +1,502 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Profile Builder | MediBridge</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700;900&display=swap" rel="stylesheet">
+
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
   <style>
     :root{
-      --bg0:#070A12; --bg1:#0A1022;
-      --card: rgba(255,255,255,.06);
-      --border: rgba(255,255,255,.12);
-      --muted: rgba(255,255,255,.68);
-      --text: rgba(255,255,255,.92);
-      --gradA:#6EE7FF; --gradB:#A78BFA;
-      --radius:18px;
+      --side0:#0c1326;
+      --side1:#081022;
+      --sideCard:#121c33;
+      --sideText:#eaf0ff;
+      --sideMuted:#9fb2e6;
+
+      --bg:#f5f7fb;
+      --card:#ffffff;
+      --border:#e6edf5;
+      --text:#0f172a;
+      --muted:#64748b;
+
+      --blue:#38bdf8;
+      --blue2:#60a5fa;
+
+      --radius:16px;
+      --radius2:18px;
+      --shadow: 0 10px 30px rgba(15,23,42,.08);
+      --shadow2: 0 16px 50px rgba(15,23,42,.10);
     }
-    *{margin:0;padding:0;box-sizing:border-box}
+
+    *{margin:0;padding:0;box-sizing:border-box;}
     body{
-      font-family:Poppins,system-ui;
-      background: radial-gradient(900px 560px at 12% 10%, rgba(110,231,255,.14), transparent 60%),
-                  radial-gradient(820px 520px at 88% 18%, rgba(167,139,250,.14), transparent 62%),
-                  linear-gradient(180deg,var(--bg0),var(--bg1));
-      color:#fff; min-height:100vh;
+      font-family:'Poppins',sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height:100vh;
     }
-    .wrap{max-width:1100px;margin:0 auto;padding:18px}
-    .top{
-      display:flex;gap:12px;flex-wrap:wrap;align-items:flex-start;justify-content:space-between;
-      margin-bottom:12px;
+
+    .app{
+      min-height:100vh;
+      display:grid;
+      grid-template-columns: 320px 1fr;
     }
+    @media (max-width: 980px){
+      .app{ grid-template-columns: 1fr; }
+    }
+
+    /* Sidebar */
+    .side{
+      background: linear-gradient(180deg, var(--side0), var(--side1));
+      color: var(--sideText);
+      padding: 18px 16px;
+    }
+
+    .brandTitle{
+      font-size:22px;
+      font-weight:900;
+      letter-spacing:.2px;
+      margin-bottom: 14px;
+    }
+
+    .profileCard{
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 18px;
+      padding: 18px;
+      text-align:center;
+      box-shadow: 0 14px 40px rgba(0,0,0,.18);
+      margin-bottom: 18px;
+    }
+    .avatar{
+      width:66px;height:66px;border-radius:50%;
+      background: rgba(255,255,255,.14);
+      display:flex;align-items:center;justify-content:center;
+      margin: 0 auto 10px;
+      font-size:28px;
+    }
+    .profileCard b{ display:block; font-size:16px; font-weight:900; }
+    .profileCard span{ display:block; font-size:12px; color: var(--sideMuted); margin-top: 2px; }
+
+    .menuTitle{
+      font-size:18px;
+      font-weight:900;
+      margin: 14px 4px 10px;
+    }
+
+    .nav{
+      display:grid;
+      gap: 8px;
+    }
+    .nav a{
+      display:flex;
+      align-items:center;
+      gap: 12px;
+      padding: 12px 12px;
+      border-radius: 12px;
+      color: rgba(234,240,255,.90);
+      text-decoration:none;
+      font-weight: 600;
+      font-size: 14px;
+      transition: background .14s ease, transform .14s ease;
+    }
+    .nav a i{ width:18px; text-align:center; opacity:.95; }
+    .nav a:hover{ background: rgba(56,189,248,.18); transform: translateY(-1px); }
+    .nav a.active{
+      background: linear-gradient(90deg, rgba(56,189,248,.95), rgba(96,165,250,.95));
+      color: #061022;
+      font-weight: 900;
+      box-shadow: 0 12px 30px rgba(56,189,248,.22);
+    }
+
+    .sideInfo{
+      margin-top: 14px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 16px;
+      padding: 12px;
+      color: rgba(234,240,255,.88);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+    .sideInfo b{ color:#fff; }
+
+    .actions{
+      margin-top: 12px;
+      display:grid;
+      gap: 10px;
+    }
+    .btn{
+      height:42px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color: #fff;
+      font-weight: 900;
+      font-size: 12px;
+      cursor:pointer;
+      display:flex;align-items:center;justify-content:center;gap:8px;
+      text-decoration:none;
+      transition: transform .14s ease, box-shadow .14s ease, background .14s ease;
+    }
+    .btn:hover{ transform: translateY(-2px); box-shadow: 0 14px 40px rgba(0,0,0,.25); }
+    .btnPrimary{
+      border:none;
+      color:#061022;
+      background: linear-gradient(90deg, rgba(56,189,248,.95), rgba(96,165,250,.95));
+    }
+
+    /* Main */
+    .main{ padding: 24px 22px; }
+
+    .topRow{
+      display:flex;
+      gap: 14px;
+      flex-wrap:wrap;
+      align-items: stretch;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .hero{
+      flex: 1;
+      min-width: 320px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius2);
+      box-shadow: var(--shadow2);
+      padding: 18px;
+    }
+    .hero h1{ font-size: 22px; font-weight: 900; margin-bottom: 6px; }
+    .hero p{ font-size: 13px; color: var(--muted); line-height: 1.55; }
+
+    .quick{
+      width: 360px;
+      max-width: 100%;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius2);
+      box-shadow: var(--shadow2);
+      padding: 18px;
+    }
+
+    .content{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+      align-items:start;
+    }
+
     .card{
-      background:var(--card);
-      border:1px solid var(--border);
-      border-radius:var(--radius);
-      padding:14px;
-      width:100%;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius2);
+      box-shadow: var(--shadow);
+      padding: 16px;
     }
-    .title{font-size:18px;font-weight:900}
-    .muted{color:var(--muted);font-size:12.5px;line-height:1.5;margin-top:6px}
-    .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+
+    .head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .head h3{
+      display:flex; align-items:center; gap:10px;
+      font-size: 15px;
+      font-weight: 900;
+    }
+    .badge{
+      font-size: 12px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      border: 1px solid #dbe6f2;
+      background: #f2f7ff;
+      color: #2563eb;
+      font-weight: 800;
+    }
+
+    label{ font-size:12px;font-weight:900;display:block;margin-bottom:6px; }
     input, textarea, select{
       width:100%;
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.05);
-      color:#fff;
-      padding:10px 12px;
+      border-radius: 12px;
+      border: 1px solid #dbe6f2;
+      background: #f8fbff;
+      color: #0f172a;
+      padding: 10px 12px;
+      font-size: 13px;
       outline:none;
-      font-size:13px;
     }
-    textarea{min-height:90px;resize:vertical}
-    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-    @media(max-width:760px){.grid2{grid-template-columns:1fr}}
-    .sectionHead{
-      display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;
-      margin-top:14px;margin-bottom:10px;
+    textarea{ min-height: 90px; resize: vertical; }
+
+    .sub{
+      margin-top: 6px;
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.5;
     }
-    .sectionHead b{font-weight:900}
-    .btn{
-      border:none;
-      border-radius:14px;
-      padding:10px 12px;
-      font-weight:900;
-      cursor:pointer;
-      color:#071023;
-      background: linear-gradient(135deg, var(--gradA), var(--gradB));
-    }
+
+    .grid2{ display:grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    @media (max-width: 760px){ .grid2{ grid-template-columns:1fr; } }
+
+    .row{ display:flex; gap: 8px; flex-wrap:wrap; align-items:center; margin-top: 10px; }
+
     .btn2{
-      border:1px solid rgba(255,255,255,.14);
-      border-radius:14px;
-      padding:10px 12px;
-      font-weight:900;
+      height: 36px;
+      padding: 0 12px;
+      border-radius: 12px;
+      border: 1px solid #dbe6f2;
+      background: #f2f7ff;
+      color: #1d4ed8;
+      font-weight: 900;
+      font-size: 12px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap: 8px;
       cursor:pointer;
-      background: rgba(255,255,255,.05);
-      color:#fff;
+      text-decoration:none;
     }
-    .table{display:grid;gap:10px}
+
+    .danger{
+      background:#fff5f5;
+      border-color:#ffd6d6;
+      color:#b91c1c;
+    }
+
+    .table{ display:grid; gap: 10px; margin-top: 10px; }
     .item{
-      padding:12px;border-radius:16px;
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.04);
-      display:grid;gap:10px;
+      border: 1px solid #e7eef7;
+      background: #fbfdff;
+      border-radius: 14px;
+      padding: 12px;
+      display:grid;
+      gap: 10px;
+      transition: transform .14s ease, box-shadow .14s ease;
     }
-    .miniGrid{display:grid;grid-template-columns:1.2fr .6fr .2fr;gap:10px;align-items:center}
-    @media(max-width:760px){.miniGrid{grid-template-columns:1fr}}
-    .del{
-      height:42px;border-radius:14px;
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.05);
-      color:#fff;font-weight:900;cursor:pointer;
+    .item:hover{ transform: translateY(-2px); box-shadow: 0 10px 24px rgba(15,23,42,.08); }
+
+    .miniGrid{
+      display:grid;
+      grid-template-columns: 1.2fr .6fr .2fr;
+      gap: 10px;
+      align-items:center;
     }
-    .foot{
-      display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;align-items:center;margin-top:14px
+    @media(max-width:760px){ .miniGrid{ grid-template-columns:1fr; } }
+
+    .msg{ margin-bottom: 14px; }
+    .msgGood{
+      padding:10px 12px;border-radius:14px;
+      background:rgba(16,185,129,.10);
+      border:1px solid rgba(16,185,129,.20);
+      color:#065f46;
+      font-size:12.5px;
     }
-    .msg{margin-top:10px}
-    .msg div{padding:10px 12px;border-radius:14px;background:rgba(52,211,153,.12);border:1px solid rgba(52,211,153,.25);color:#d1fae5;font-size:12.5px}
-    .err div{background:rgba(251,113,133,.12);border-color:rgba(251,113,133,.25);color:#ffe4e6}
+    .msgBad{
+      padding:10px 12px;border-radius:14px;
+      background:rgba(244,63,94,.10);
+      border:1px solid rgba(244,63,94,.20);
+      color:#9f1239;
+      font-size:12.5px;
+    }
   </style>
 </head>
+
 <body>
-  <div class="wrap">
-    <div class="top">
-      <div class="card" style="flex:1;min-width:280px">
-        <div class="title">Profile Builder</div>
-        <div class="muted">Add your skills, courses, projects, and achievements. This data powers the Student Dashboard readiness score, gaps, and recommendations.</div>
-      </div>
-      <div class="card" style="width:320px;min-width:280px">
-        <div class="title" style="font-size:14px">Quick Links</div>
-        <div class="row">
-          <a class="btn2" style="text-decoration:none;text-align:center;flex:1" href="{% url 'student_dashboard' %}">Back to Dashboard</a>
-          <button class="btn2" type="button" onclick="window.scrollTo({top:0,behavior:'smooth'})">Top</button>
+
+<div class="app">
+
+  <!-- Sidebar -->
+  <aside class="side">
+    <div class="brandTitle">Holistic Skill Intelligence System</div>
+
+    <div class="profileCard">
+      <div class="avatar"><i class="fas fa-user"></i></div>
+      <b>{{ request.user.username }}</b>
+      <span>Healthcare Domain</span>
+    </div>
+
+    <div class="menuTitle">Menu</div>
+    <nav class="nav">
+      <a href="{% url 'student_dashboard' %}"><i class="fas fa-home"></i> Dashboard</a>
+      <a class="active" href="{% url 'profile_builder' %}"><i class="fas fa-edit"></i> Profile Builder</a>
+    </nav>
+
+    <div class="sideInfo">
+      <b>Tip:</b> Add GitHub username to complete the External API requirement.<br>
+      <span style="color:rgba(234,240,255,.80)">We fetch only public profile + repos metadata.</span>
+    </div>
+
+    <div class="actions">
+      <a class="btn btnPrimary" href="{% url 'student_dashboard' %}"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+      <a class="btn" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+
+    <div class="topRow">
+      <section class="hero">
+        <h1>Profile Builder</h1>
+        <p>Update your skills, courses, projects, achievements, and GitHub evidence. This powers readiness, gaps, and recommendations.</p>
+      </section>
+
+      <section class="quick">
+        <div class="head">
+          <h3><i class="fas fa-link"></i> Quick Actions</h3>
+          <span class="badge">Save & go</span>
         </div>
-      </div>
+        <div class="sub">After saving, refresh the Student Dashboard to see updated readiness + GitHub card.</div>
+        <div class="row">
+          <a class="btn2" href="{% url 'student_dashboard' %}">Open Dashboard</a>
+          <button class="btn2" type="button" onclick="window.scrollTo({top:0,behavior:'smooth'})">Scroll Top</button>
+        </div>
+
+      </section>
     </div>
 
     {% if messages %}
       <div class="msg">
         {% for m in messages %}
-          <div class="{% if m.tags == 'error' %}err{% endif %}"><div>{{ m }}</div></div>
+          {% if m.tags == 'error' %}
+            <div class="msgBad">{{ m }}</div>
+          {% else %}
+            <div class="msgGood">{{ m }}</div>
+          {% endif %}
         {% endfor %}
       </div>
     {% endif %}
 
-    <form method="post">
-      {% csrf_token %}
+   <form method="post">
+  {% csrf_token %}
 
-      <div class="card">
-        <div class="sectionHead"><b>Basic Info</b></div>
-        <div class="grid2">
-          <div>
-            <label class="muted">Headline</label>
-            <input name="headline" value="{{ profile.headline|default:'' }}" placeholder="e.g. Health Data | SQL | Excel | Reporting">
-          </div>
-          <div>
-            <label class="muted">Target Role</label>
-            <input name="target_role" value="{{ profile.target_role|default:'Health Data Assistant' }}" placeholder="Health Data Assistant">
+  <section class="content">
+
+    <!-- GitHub (ONE correct section) -->
+    <section class="card">
+      <div class="head">
+        <h3><i class="fab fa-github"></i> GitHub Evidence</h3>
+        <span class="badge">External API</span>
+      </div>
+
+      <div class="grid2">
+        <div>
+          <label>GitHub Username</label>
+          <input id="ghUser" name="github_username" value="{{ profile.github_username }}" placeholder="e.g. torvalds">
+          <div class="sub">Type your username → click <b>Preview</b> to fetch instantly. Click <b>Save Profile</b> to store it.</div>
+
+          <div class="row" style="margin-top:10px">
+            <button class="btn2" type="button" onclick="loadGithub(document.getElementById('ghUser').value)">
+              <i class="fab fa-github"></i> Preview GitHub
+            </button>
           </div>
         </div>
-        <div style="margin-top:10px">
-          <label class="muted">Goal / Bio</label>
-          <textarea name="bio" placeholder="What are you trying to achieve?">{{ profile.bio|default:'' }}</textarea>
+
+        <div>
+          <label>Status</label>
+          <input value="{% if profile.github_username %}Saved{% else %}Not saved{% endif %}" disabled>
+          <div class="sub">Saved means it will auto-load next time you open Profile Builder.</div>
         </div>
       </div>
 
-      <!-- Skills -->
-      <div class="card" style="margin-top:12px">
-        <div class="sectionHead">
-          <b>Skills (1–5)</b>
-          <button class="btn" type="button" onclick="addSkill()">+ Add Skill</button>
+      <!-- Results -->
+      <div id="ghBox" class="table" style="margin-top:12px;"></div>
+      <div id="ghErr" class="msgBad" style="display:none;margin-top:12px;"></div>
+    </section>
+
+
+    <!-- Basic Info -->
+    <section class="card">
+      <div class="head">
+        <h3><i class="fas fa-id-card"></i> Basic Info</h3>
+        <span class="badge">Profile</span>
+      </div>
+
+      <div class="grid2">
+        <div>
+          <label>Headline</label>
+          <input name="headline" value="{{ profile.headline|default:'' }}" placeholder="e.g. Health Data | SQL | Excel | Reporting">
         </div>
-        <div id="skillsWrap" class="table">
-          {% for s in skills %}
-          <div class="item miniGrid">
-            <input name="skill_name[]" value="{{ s.name }}" placeholder="Skill name (e.g. SQL)">
-            <select name="skill_level[]">
-              {% for i in "12345" %}
-                <option value="{{ i }}" {% if s.level|stringformat:"s" == i %}selected{% endif %}>Level {{ i }}</option>
-              {% endfor %}
-            </select>
-            <button class="del" type="button" onclick="removeRow(this)">X</button>
-          </div>
-          {% empty %}
-          <div class="item miniGrid">
-            <input name="skill_name[]" placeholder="Skill name (e.g. SQL)">
-            <select name="skill_level[]">
-              <option value="1">Level 1</option><option value="2">Level 2</option><option value="3">Level 3</option><option value="4">Level 4</option><option value="5">Level 5</option>
-            </select>
-            <button class="del" type="button" onclick="removeRow(this)">X</button>
-          </div>
-          {% endfor %}
+        <div>
+          <label>Target Role</label>
+          <input name="target_role" value="{{ profile.target_role|default:'Health Data Assistant' }}" placeholder="Health Data Assistant">
         </div>
       </div>
 
-      <!-- Courses -->
-      <div class="card" style="margin-top:12px">
-        <div class="sectionHead">
-          <b>Courses</b>
-          <button class="btn" type="button" onclick="addCourse()">+ Add Course</button>
-        </div>
-        <div id="coursesWrap" class="table">
-          {% for c in courses %}
-          <div class="item">
-            <div class="grid2">
-              <input name="course_title[]" value="{{ c.title }}" placeholder="Course title">
-              <input name="course_provider[]" value="{{ c.provider }}" placeholder="Provider (Coursera/YouTube/etc.)">
-            </div>
-            <div class="grid2">
-              <select name="course_status[]">
-                <option value="in_progress" {% if c.status == "in_progress" %}selected{% endif %}>In progress</option>
-                <option value="completed" {% if c.status == "completed" %}selected{% endif %}>Completed</option>
-              </select>
-              <input name="course_hours[]" value="{{ c.hours }}" type="number" min="0" placeholder="Hours spent">
-            </div>
-            <button class="del" type="button" onclick="removeRow(this)">Remove</button>
-          </div>
-          {% empty %}
-          <div class="item">
-            <div class="grid2">
-              <input name="course_title[]" placeholder="Course title">
-              <input name="course_provider[]" placeholder="Provider (Coursera/YouTube/etc.)">
-            </div>
-            <div class="grid2">
-              <select name="course_status[]">
-                <option value="in_progress">In progress</option>
-                <option value="completed">Completed</option>
-              </select>
-              <input name="course_hours[]" type="number" min="0" placeholder="Hours spent">
-            </div>
-            <button class="del" type="button" onclick="removeRow(this)">Remove</button>
-          </div>
-          {% endfor %}
+      <div style="margin-top:10px">
+        <label>Goal / Bio</label>
+        <textarea name="bio" placeholder="What are you trying to achieve?">{{ profile.bio|default:'' }}</textarea>
+      </div>
+    </section>
+
+
+    <!-- Skills -->
+    <section class="card">
+      <div class="head">
+        <h3><i class="fas fa-brain"></i> Skills</h3>
+        <div class="row">
+          <button class="btn2" type="button" onclick="addSkill()"><i class="fas fa-plus"></i> Add Skill</button>
         </div>
       </div>
 
-      <!-- Projects -->
-      <div class="card" style="margin-top:12px">
-        <div class="sectionHead">
-          <b>Projects</b>
-          <button class="btn" type="button" onclick="addProject()">+ Add Project</button>
+      <div id="skillsWrap" class="table">
+        {% for s in skills %}
+        <div class="item miniGrid">
+          <input name="skill_name[]" value="{{ s.name }}" placeholder="Skill name (e.g. SQL)">
+          <select name="skill_level[]">
+            {% for i in "12345" %}
+              <option value="{{ i }}" {% if s.level|stringformat:"s" == i %}selected{% endif %}>Level {{ i }}</option>
+            {% endfor %}
+          </select>
+          <button class="btn2 danger" type="button" onclick="removeRow(this)">Remove</button>
         </div>
-        <div id="projectsWrap" class="table">
-          {% for p in projects %}
-          <div class="item">
-            <input name="project_title[]" value="{{ p.title }}" placeholder="Project title">
-            <textarea name="project_desc[]" placeholder="What did you build?">{{ p.description }}</textarea>
-            <div class="grid2">
-              <input name="project_tools[]" value="{{ p.tools }}" placeholder="Tools (SQL, Excel, Django...)">
-              <input name="project_link[]" value="{{ p.link }}" placeholder="Proof link (GitHub/Drive) optional">
-            </div>
-            <button class="del" type="button" onclick="removeRow(this)">Remove</button>
-          </div>
-          {% empty %}
-          <div class="item">
-            <input name="project_title[]" placeholder="Project title">
-            <textarea name="project_desc[]" placeholder="What did you build?"></textarea>
-            <div class="grid2">
-              <input name="project_tools[]" placeholder="Tools (SQL, Excel, Django...)">
-              <input name="project_link[]" placeholder="Proof link (GitHub/Drive) optional">
-            </div>
-            <button class="del" type="button" onclick="removeRow(this)">Remove</button>
-          </div>
-          {% endfor %}
-        </div>
-      </div>
-
-      <!-- Achievements -->
-      <div class="card" style="margin-top:12px">
-        <div class="sectionHead">
-          <b>Achievements</b>
-          <button class="btn" type="button" onclick="addAch()">+ Add Achievement</button>
-        </div>
-        <div id="achWrap" class="table">
-          {% for a in achievements %}
-          <div class="item">
-            <div class="grid2">
-              <input name="ach_title[]" value="{{ a.title }}" placeholder="Achievement title">
-              <input name="ach_date[]" value="{{ a.date|date:'Y-m-d' }}" type="date">
-            </div>
-            <input name="ach_link[]" value="{{ a.proof_link }}" placeholder="Proof link (optional)">
-            <button class="del" type="button" onclick="removeRow(this)">Remove</button>
-          </div>
-          {% empty %}
-          <div class="item">
-            <div class="grid2">
-              <input name="ach_title[]" placeholder="Achievement title">
-              <input name="ach_date[]" type="date">
-            </div>
-            <input name="ach_link[]" placeholder="Proof link (optional)">
-            <button class="del" type="button" onclick="removeRow(this)">Remove</button>
-          </div>
-          {% endfor %}
-        </div>
-      </div>
-
-      <div class="foot">
-        <button class="btn" type="submit">Save Profile</button>
-        <a class="btn2" style="text-decoration:none" href="{% url 'student_dashboard' %}">Go to Dashboard</a>
-      </div>
-    </form>
-  </div>
-
-  <script>
-    function removeRow(btn){ btn.closest(".item").remove(); }
-
-    function addSkill(){
-      document.getElementById("skillsWrap").insertAdjacentHTML("beforeend", `
+        {% empty %}
         <div class="item miniGrid">
           <input name="skill_name[]" placeholder="Skill name (e.g. SQL)">
           <select name="skill_level[]">
-            <option value="1">Level 1</option><option value="2">Level 2</option>
-            <option value="3">Level 3</option><option value="4">Level 4</option><option value="5">Level 5</option>
+            <option value="1">Level 1</option><option value="2">Level 2</option><option value="3">Level 3</option><option value="4">Level 4</option><option value="5">Level 5</option>
           </select>
-          <button class="del" type="button" onclick="removeRow(this)">X</button>
+          <button class="btn2 danger" type="button" onclick="removeRow(this)">Remove</button>
         </div>
-      `);
-    }
+        {% endfor %}
+      </div>
+    </section>
 
-    function addCourse(){
-      document.getElementById("coursesWrap").insertAdjacentHTML("beforeend", `
+
+    <!-- Courses -->
+    <section class="card">
+      <div class="head">
+        <h3><i class="fas fa-book"></i> Courses</h3>
+        <div class="row">
+          <button class="btn2" type="button" onclick="addCourse()"><i class="fas fa-plus"></i> Add Course</button>
+        </div>
+      </div>
+
+      <div id="coursesWrap" class="table">
+        {% for c in courses %}
+        <div class="item">
+          <div class="grid2">
+            <input name="course_title[]" value="{{ c.title }}" placeholder="Course title">
+            <input name="course_provider[]" value="{{ c.provider }}" placeholder="Provider (Coursera/YouTube/etc.)">
+          </div>
+          <div class="grid2">
+            <select name="course_status[]">
+              <option value="in_progress" {% if c.status == "in_progress" %}selected{% endif %}>In progress</option>
+              <option value="completed" {% if c.status == "completed" %}selected{% endif %}>Completed</option>
+            </select>
+            <input name="course_hours[]" value="{{ c.hours }}" type="number" min="0" placeholder="Hours spent">
+          </div>
+          <button class="btn2 danger" type="button" onclick="removeRow(this)">Remove</button>
+        </div>
+        {% empty %}
         <div class="item">
           <div class="grid2">
             <input name="course_title[]" placeholder="Course title">
@@ -309,13 +509,34 @@
             </select>
             <input name="course_hours[]" type="number" min="0" placeholder="Hours spent">
           </div>
-          <button class="del" type="button" onclick="removeRow(this)">Remove</button>
+          <button class="btn2 danger" type="button" onclick="removeRow(this)">Remove</button>
         </div>
-      `);
-    }
+        {% endfor %}
+      </div>
+    </section>
 
-    function addProject(){
-      document.getElementById("projectsWrap").insertAdjacentHTML("beforeend", `
+
+    <!-- Projects -->
+    <section class="card">
+      <div class="head">
+        <h3><i class="fas fa-project-diagram"></i> Projects</h3>
+        <div class="row">
+          <button class="btn2" type="button" onclick="addProject()"><i class="fas fa-plus"></i> Add Project</button>
+        </div>
+      </div>
+
+      <div id="projectsWrap" class="table">
+        {% for p in projects %}
+        <div class="item">
+          <input name="project_title[]" value="{{ p.title }}" placeholder="Project title">
+          <textarea name="project_desc[]" placeholder="What did you build?">{{ p.description }}</textarea>
+          <div class="grid2">
+            <input name="project_tools[]" value="{{ p.tools }}" placeholder="Tools (SQL, Excel, Django...)">
+            <input name="project_link[]" value="{{ p.link }}" placeholder="Proof link (GitHub/Drive) optional">
+          </div>
+          <button class="btn2 danger" type="button" onclick="removeRow(this)">Remove</button>
+        </div>
+        {% empty %}
         <div class="item">
           <input name="project_title[]" placeholder="Project title">
           <textarea name="project_desc[]" placeholder="What did you build?"></textarea>
@@ -323,23 +544,202 @@
             <input name="project_tools[]" placeholder="Tools (SQL, Excel, Django...)">
             <input name="project_link[]" placeholder="Proof link (GitHub/Drive) optional">
           </div>
-          <button class="del" type="button" onclick="removeRow(this)">Remove</button>
+          <button class="btn2 danger" type="button" onclick="removeRow(this)">Remove</button>
         </div>
-      `);
-    }
+        {% endfor %}
+      </div>
+    </section>
 
-    function addAch(){
-      document.getElementById("achWrap").insertAdjacentHTML("beforeend", `
+
+    <!-- Achievements -->
+    <section class="card">
+      <div class="head">
+        <h3><i class="fas fa-trophy"></i> Achievements</h3>
+        <div class="row">
+          <button class="btn2" type="button" onclick="addAch()"><i class="fas fa-plus"></i> Add Achievement</button>
+        </div>
+      </div>
+
+      <div id="achWrap" class="table">
+        {% for a in achievements %}
+        <div class="item">
+          <div class="grid2">
+            <input name="ach_title[]" value="{{ a.title }}" placeholder="Achievement title">
+            <input name="ach_date[]" value="{{ a.date|date:'Y-m-d' }}" type="date">
+          </div>
+          <input name="ach_link[]" value="{{ a.proof_link }}" placeholder="Proof link (optional)">
+          <button class="btn2 danger" type="button" onclick="removeRow(this)">Remove</button>
+        </div>
+        {% empty %}
         <div class="item">
           <div class="grid2">
             <input name="ach_title[]" placeholder="Achievement title">
             <input name="ach_date[]" type="date">
           </div>
           <input name="ach_link[]" placeholder="Proof link (optional)">
-          <button class="del" type="button" onclick="removeRow(this)">Remove</button>
+          <button class="btn2 danger" type="button" onclick="removeRow(this)">Remove</button>
         </div>
-      `);
+        {% endfor %}
+      </div>
+    </section>
+
+
+    <!-- Save -->
+    <section class="card">
+      <div class="head">
+        <h3><i class="fas fa-save"></i> Save</h3>
+        <span class="badge">Update</span>
+      </div>
+      <div class="row">
+        <button class="btn2" type="submit"><i class="fas fa-check"></i> Save Profile</button>
+        <a class="btn2" href="{% url 'student_dashboard' %}"><i class="fas fa-home"></i> Go to Dashboard</a>
+      </div>
+      <div class="sub">Save will store username + profile. Preview shows GitHub instantly.</div>
+    </section>
+
+  </section>
+</form>
+
+<script>
+  async function loadGithub(username){
+    const box = document.getElementById("ghBox");
+    const err = document.getElementById("ghErr");
+
+    box.innerHTML = "";
+    err.style.display = "none";
+    err.innerText = "";
+
+    username = (username || "").trim();
+    if(!username){
+      box.innerHTML = `<div class="sub">Enter a GitHub username to preview.</div>`;
+      return;
     }
-  </script>
+
+    try{
+      const profRes = await fetch(`https://api.github.com/users/${username}`);
+      if(profRes.status === 404) throw new Error("GitHub user not found (404).");
+      if(profRes.status === 403) throw new Error("GitHub rate limit (403). Try later.");
+      if(!profRes.ok) throw new Error("GitHub error: " + profRes.status);
+      const prof = await profRes.json();
+
+      const repoRes = await fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=5`);
+      if(repoRes.status === 403) throw new Error("GitHub rate limit while fetching repos.");
+      if(!repoRes.ok) throw new Error("Repo fetch error: " + repoRes.status);
+      const repos = await repoRes.json();
+
+      const latest = (repos && repos.length) ? repos[0] : null;
+
+      const langMap = {};
+      (repos || []).forEach(r=>{
+        if(r.language) langMap[r.language] = (langMap[r.language] || 0) + 1;
+      });
+
+      const langs = Object.entries(langMap)
+        .sort((a,b)=>b[1]-a[1])
+        .slice(0,5)
+        .map(([name,count])=>({name,count}));
+
+      box.innerHTML = `
+        <div class="item">
+          <b>Connected as:</b> ${prof.login} ${prof.name ? " • " + prof.name : ""}
+          <div class="sub">Followers: ${prof.followers} • Public Repos: ${prof.public_repos}</div>
+          <div class="sub"><a class="btn2" href="${prof.html_url}" target="_blank">Open GitHub Profile</a></div>
+        </div>
+
+        ${latest ? `
+        <div class="item">
+          <b>Latest Repo:</b> ${latest.name}
+          <div class="sub">${latest.description ? latest.description : "(No description)"}</div>
+          <div class="sub"><a class="btn2" href="${latest.html_url}" target="_blank">Open Repo</a></div>
+        </div>` : ""}
+
+        <div class="item">
+          <b>Top Languages (recent repos)</b>
+          <div class="sub">
+            ${langs.length ? langs.map(l=>`• ${l.name} (${l.count})`).join("<br>") : "No language data found."}
+          </div>
+        </div>
+      `;
+    }catch(e){
+      err.style.display = "block";
+      err.innerText = "GitHub Error: " + e.message;
+    }
+  }
+
+  // Auto preview on page load if username exists
+  document.addEventListener("DOMContentLoaded", () => {
+    const username = document.getElementById("ghUser")?.value || "";
+    if(username.trim()) loadGithub(username);
+  });
+</script>
+
+</div>
+
+  </main>
+</div>
+
+<script>
+  function removeRow(btn){ btn.closest(".item").remove(); }
+
+  function addSkill(){
+    document.getElementById("skillsWrap").insertAdjacentHTML("beforeend", `
+      <div class="item miniGrid">
+        <input name="skill_name[]" placeholder="Skill name (e.g. SQL)">
+        <select name="skill_level[]">
+          <option value="1">Level 1</option><option value="2">Level 2</option>
+          <option value="3">Level 3</option><option value="4">Level 4</option><option value="5">Level 5</option>
+        </select>
+        <button class="btn2 danger" type="button" onclick="removeRow(this)">Remove</button>
+      </div>
+    `);
+  }
+
+  function addCourse(){
+    document.getElementById("coursesWrap").insertAdjacentHTML("beforeend", `
+      <div class="item">
+        <div class="grid2">
+          <input name="course_title[]" placeholder="Course title">
+          <input name="course_provider[]" placeholder="Provider (Coursera/YouTube/etc.)">
+        </div>
+        <div class="grid2">
+          <select name="course_status[]">
+            <option value="in_progress">In progress</option>
+            <option value="completed">Completed</option>
+          </select>
+          <input name="course_hours[]" type="number" min="0" placeholder="Hours spent">
+        </div>
+        <button class="btn2 danger" type="button" onclick="removeRow(this)">Remove</button>
+      </div>
+    `);
+  }
+
+  function addProject(){
+    document.getElementById("projectsWrap").insertAdjacentHTML("beforeend", `
+      <div class="item">
+        <input name="project_title[]" placeholder="Project title">
+        <textarea name="project_desc[]" placeholder="What did you build?"></textarea>
+        <div class="grid2">
+          <input name="project_tools[]" placeholder="Tools (SQL, Excel, Django...)">
+          <input name="project_link[]" placeholder="Proof link (GitHub/Drive) optional">
+        </div>
+        <button class="btn2 danger" type="button" onclick="removeRow(this)">Remove</button>
+      </div>
+    `);
+  }
+
+  function addAch(){
+    document.getElementById("achWrap").insertAdjacentHTML("beforeend", `
+      <div class="item">
+        <div class="grid2">
+          <input name="ach_title[]" placeholder="Achievement title">
+          <input name="ach_date[]" type="date">
+        </div>
+        <input name="ach_link[]" placeholder="Proof link (optional)">
+        <button class="btn2 danger" type="button" onclick="removeRow(this)">Remove</button>
+      </div>
+    `);
+  }
+</script>
+
 </body>
 </html>

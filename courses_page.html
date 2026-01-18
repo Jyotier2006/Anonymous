@@ -1,0 +1,286 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Healthcare Learning | MediBridge</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --side0:#0c1326; --side1:#081022;
+      --sideText:#eaf0ff; --sideMuted:#9fb2e6;
+      --bg:#f5f7fb; --card:#ffffff; --border:#e6edf5;
+      --text:#0f172a; --muted:#64748b;
+      --radius2:18px;
+      --shadow: 0 10px 30px rgba(15,23,42,.08);
+      --shadow2: 0 16px 50px rgba(15,23,42,.10);
+    }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+    .app{min-height:100vh;display:grid;grid-template-columns:320px 1fr;}
+    @media(max-width:980px){.app{grid-template-columns:1fr}}
+
+    .side{background:linear-gradient(180deg,var(--side0),var(--side1));color:var(--sideText);padding:18px 16px;}
+    .brandTitle{font-size:20px;font-weight:900;margin-bottom:14px}
+    .profileCard{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.10);border-radius:18px;padding:18px;text-align:center;box-shadow:0 14px 40px rgba(0,0,0,.18);margin-bottom:18px;}
+    .avatar{width:66px;height:66px;border-radius:50%;background:rgba(255,255,255,.14);display:flex;align-items:center;justify-content:center;margin:0 auto 10px;font-size:28px;}
+    .profileCard b{display:block;font-size:16px;font-weight:900}
+    .profileCard span{display:block;font-size:12px;color:var(--sideMuted);margin-top:2px}
+
+    .nav{display:grid;gap:8px;margin-top:10px}
+    .nav a{display:flex;align-items:center;gap:12px;padding:12px;border-radius:12px;color:rgba(234,240,255,.90);text-decoration:none;font-weight:600;font-size:14px}
+    .nav a:hover{background:rgba(56,189,248,.18)}
+    .nav a.active{background:linear-gradient(90deg,rgba(56,189,248,.95),rgba(96,165,250,.95));color:#061022;font-weight:900}
+
+    .btnSide{margin-top:12px;display:flex;gap:10px;flex-wrap:wrap}
+    .btn2{
+      height:36px;padding:0 12px;border-radius:12px;
+      border:1px solid #dbe6f2;background:#f2f7ff;color:#1d4ed8;
+      font-weight:900;font-size:12px;display:inline-flex;align-items:center;gap:8px;
+      text-decoration:none;cursor:pointer
+    }
+    .danger{background:#fff5f5;border-color:#ffd6d6;color:#b91c1c}
+
+    .main{padding:24px 22px}
+    .topRow{display:flex;gap:14px;flex-wrap:wrap;justify-content:space-between;margin-bottom:14px}
+    .hero{flex:1;min-width:320px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius2);box-shadow:var(--shadow2);padding:18px}
+    .hero h1{font-size:22px;font-weight:900;margin-bottom:6px}
+    .hero p{font-size:13px;color:var(--muted);line-height:1.55}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius2);box-shadow:var(--shadow);padding:16px}
+    .head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+    .head h3{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:900}
+    .badge{font-size:12px;padding:5px 10px;border-radius:999px;border:1px solid #dbe6f2;background:#f2f7ff;color:#2563eb;font-weight:800}
+    .sub{margin-top:6px;font-size:12px;color:var(--muted);line-height:1.5}
+
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    @media(max-width:760px){.grid2{grid-template-columns:1fr}}
+    label{font-size:12px;font-weight:900;display:block;margin-bottom:6px}
+    input,select{width:100%;border-radius:12px;border:1px solid #dbe6f2;background:#f8fbff;color:#0f172a;padding:10px 12px;font-size:13px;outline:none}
+
+    .pill{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;font-size:12px;font-weight:800;border:1px solid #dbe6f2;background:#f2f7ff;color:#1d4ed8}
+    .ok{background:#ecfeff;border-color:#bae6fd;color:#0c4a6e}
+
+    .bar{height:10px;border-radius:999px;background:#eef2ff;border:1px solid #dbe6f2;overflow:hidden}
+    .bar > div{height:100%;background:linear-gradient(90deg,rgba(56,189,248,.95),rgba(96,165,250,.95));width:0%}
+
+    .table{display:grid;gap:10px;margin-top:10px}
+    .item{border:1px solid #e7eef7;background:#fbfdff;border-radius:14px;padding:12px;display:grid;gap:10px}
+    .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+    .btnPrimary{
+      height:36px;padding:0 12px;border-radius:12px;border:none;
+      background:linear-gradient(90deg,rgba(56,189,248,.95),rgba(96,165,250,.95));
+      color:#061022;font-weight:900;font-size:12px;cursor:pointer
+    }
+  </style>
+</head>
+
+<body>
+<div class="app">
+
+  <aside class="side">
+    <div class="brandTitle">MediBridge Healthcare Skill Tracker</div>
+
+    <div class="profileCard">
+      <div class="avatar"><i class="fas fa-user"></i></div>
+      <b>{{ request.user.username }}</b>
+      <span>Healthcare Domain</span>
+    </div>
+
+    <nav class="nav">
+      <a href="{% url 'student_dashboard' %}"><i class="fas fa-home"></i> Dashboard</a>
+      <a href="{% url 'skills_page' %}"><i class="fas fa-brain"></i> Healthcare Skills</a>
+      <a class="active" href="{% url 'courses_page' %}"><i class="fas fa-book-medical"></i> Healthcare Learning</a>
+      <a href="{% url 'projects_page' %}"><i class="fas fa-project-diagram"></i> Healthcare Portfolio</a>
+      <a href="{% url 'achievements_page' %}"><i class="fas fa-trophy"></i> Certifications</a>
+      <a href="{% url 'profile_builder' %}"><i class="fas fa-edit"></i> Profile Builder</a>
+    </nav>
+
+    <div class="btnSide">
+      <a class="btn2" href="{% url 'student_dashboard' %}"><i class="fas fa-arrow-left"></i> Back</a>
+      <a class="btn2" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </div>
+  </aside>
+
+  <main class="main">
+
+    <div class="topRow">
+      <section class="hero">
+        <h1>Healthcare Learning</h1>
+        <p>
+          Track your healthcare learning (hours + completion) and follow role-based recommendations
+          to increase your job readiness for {{ target_role }}.
+        </p>
+
+        <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap">
+          <span class="pill ok"><i class="fas fa-bullseye"></i> Target Role: {{ target_role }}</span>
+          <span class="pill"><i class="fas fa-check-circle"></i> Completed: {{ completed_courses }}/{{ total_courses }}</span>
+          <span class="pill"><i class="fas fa-clock"></i> Total Hours: {{ total_hours }}</span>
+        </div>
+
+        <div style="margin-top:10px" class="bar">
+          <div style="width: {{ completion_pct }}%"></div>
+        </div>
+        <div class="sub">Learning completion rate: <b>{{ completion_pct }}%</b></div>
+      </section>
+
+      <section class="card" style="width:360px;max-width:100%">
+        <div class="head">
+          <h3><i class="fas fa-filter"></i> Search & Filter</h3>
+          <span class="badge">Smart</span>
+        </div>
+
+        <form method="get" class="grid2">
+          <div>
+            <label>Search course</label>
+            <input name="q" value="{{ q }}" placeholder="SQL, Excel, medical terminology, privacy...">
+          </div>
+          <div>
+            <label>Status</label>
+            <select name="status">
+              <option value="">Any</option>
+              <option value="in_progress" {% if status == "in_progress" %}selected{% endif %}>In progress</option>
+              <option value="completed" {% if status == "completed" %}selected{% endif %}>Completed</option>
+            </select>
+          </div>
+          <div>
+            <label>Provider</label>
+            <input name="provider" value="{{ provider }}" placeholder="YouTube, Coursera, Udemy...">
+          </div>
+          <div>
+            <label>Min hours</label>
+            <input name="min_hours" value="{{ min_hours }}" placeholder="0">
+          </div>
+          <button class="btnPrimary" type="submit" style="grid-column:1/-1">Apply</button>
+        </form>
+      </section>
+    </div>
+
+    <!-- Add / Update -->
+    <section class="card">
+      <div class="head">
+        <h3><i class="fas fa-plus-circle"></i> Add / Update Healthcare Learning</h3>
+        <span class="badge">Quick</span>
+      </div>
+
+      <form method="post" class="grid2">
+        {% csrf_token %}
+        <div>
+          <label>Course Title</label>
+          <input name="title" placeholder="e.g. SQL for Healthcare Analytics">
+          <div class="sub">If the same title already exists, it will update that course.</div>
+        </div>
+        <div>
+          <label>Provider</label>
+          <input name="provider" placeholder="YouTube / Coursera / Udemy">
+        </div>
+        <div>
+          <label>Status</label>
+          <select name="status">
+            <option value="in_progress">In progress</option>
+            <option value="completed">Completed</option>
+          </select>
+        </div>
+        <div>
+          <label>Hours</label>
+          <input name="hours" type="number" min="0" value="0">
+        </div>
+        <button class="btnPrimary" type="submit" style="grid-column:1/-1">Save Learning</button>
+      </form>
+
+      {% if suggested %}
+        <div style="margin-top:12px">
+          <div class="sub"><b>Suggested healthcare learning:</b> add quickly</div>
+          <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap">
+            {% for s in suggested %}
+              <form method="post" style="display:inline">
+                {% csrf_token %}
+                <input type="hidden" name="title" value="{{ s.title }}">
+                <input type="hidden" name="provider" value="{{ s.provider }}">
+                <input type="hidden" name="status" value="{{ s.status }}">
+                <input type="hidden" name="hours" value="{{ s.hours }}">
+                <button class="btn2" type="submit"><i class="fas fa-plus"></i> {{ s.title }}</button>
+              </form>
+            {% endfor %}
+          </div>
+          <div class="sub" style="margin-top:8px;">
+            Tip: Add 1 new healthcare learning item weekly and update hours every Sunday.
+          </div>
+        </div>
+      {% endif %}
+    </section>
+
+    <!-- Recommended next -->
+    <section class="card" style="margin-top:14px">
+      <div class="head">
+        <h3><i class="fas fa-lightbulb"></i> Recommended Next (Role-based)</h3>
+        <span class="badge">Healthcare</span>
+      </div>
+      <div class="sub">These are suggested for <b>{{ target_role }}</b> based on your current gaps.</div>
+
+      <div class="table">
+        {% for r in recommended %}
+          <div class="item">
+            <b>{{ r }}</b>
+            <div class="sub">Add it above and track it weekly (hours + status).</div>
+          </div>
+        {% empty %}
+          <div class="sub">No recommendations right now. Add healthcare skills to unlock smarter suggestions.</div>
+        {% endfor %}
+      </div>
+    </section>
+
+    <!-- Your Courses -->
+    <section class="card" style="margin-top:14px">
+      <div class="head">
+        <h3><i class="fas fa-list"></i> Your Healthcare Learning</h3>
+        <span class="badge">{{ courses|length }}</span>
+      </div>
+
+      <div class="table">
+        {% for c in courses %}
+          <div class="item">
+            <div class="row">
+              <b>{{ c.title }}</b>
+              {% if c.status == "completed" %}
+                <span class="pill ok"><i class="fas fa-check"></i> Completed</span>
+              {% else %}
+                <span class="pill"><i class="fas fa-spinner"></i> In progress</span>
+              {% endif %}
+            </div>
+            <div class="sub">Provider: {{ c.provider|default:"-" }} • Hours: {{ c.hours }}</div>
+
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <!-- Quick update -->
+              <form method="post" style="display:flex;gap:8px;align-items:center">
+                {% csrf_token %}
+                <input type="hidden" name="title" value="{{ c.title }}">
+                <input type="hidden" name="provider" value="{{ c.provider }}">
+                <select name="status" style="width:160px">
+                  <option value="in_progress" {% if c.status == "in_progress" %}selected{% endif %}>In progress</option>
+                  <option value="completed" {% if c.status == "completed" %}selected{% endif %}>Completed</option>
+                </select>
+                <input name="hours" type="number" min="0" value="{{ c.hours }}" style="width:140px">
+                <button class="btn2" type="submit"><i class="fas fa-sync"></i> Update</button>
+              </form>
+
+              <!-- Delete -->
+              <form method="post" action="{% url 'delete_course' c.id %}">
+                {% csrf_token %}
+                <button class="btn2 danger" type="submit"><i class="fas fa-trash"></i> Delete</button>
+              </form>
+            </div>
+          </div>
+        {% empty %}
+          <div class="sub">No healthcare learning added yet. Add one above.</div>
+        {% endfor %}
+      </div>
+    </section>
+
+  </main>
+</div>
+</body>
+</html>
