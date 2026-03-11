@@ -10,4 +10,4 @@ Educators have their own dashboard where they can create healthcare learning top
 
 Privacy is a core principle. Only learning related data is stored. If GitHub is connected, only public profile information is used. Users can disconnect it at any time. No personal or medical data is collected.
 
-MediBridge transforms uncertainty into direction. It replaces guesswork with clarity and turns scattered learning into a guided journey. Instead of asking what should I study, users always know their next step toward becoming job ready in healthcare.
+MediBridge transforms uncertainty into direction. It replaces guesswork with clarity and turns scattered learning into a guided journey. Instead of asking what should I study, users always know their next step toward becoming job ready in healthcare .
